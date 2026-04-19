@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import "./App.css";
 
 const PAGES = [
   { id: "home", label: "Bosh sahifa", icon: HomeIcon },
@@ -337,251 +338,80 @@ function PH({ tag, title, sub }) {
 export default function App() {
   const [page, setPage] = useState("home");
   const [collapsed, setCollapsed] = useState(false);
-  const W = collapsed ? 60 : 232;
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const closeMobileMenu = () => {
+    setMenuOpen(false);
+  };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        height: "100vh",
-        overflow: "hidden",
-        fontFamily: "'Segoe UI', system-ui, sans-serif",
-        background: "#f1f5f9",
-      }}
-    >
-      <style>{`
-        *{box-sizing:border-box;margin:0;padding:0}
-        ::-webkit-scrollbar{width:4px}
-        ::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px}
-        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-        @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
-        .nav-btn:hover{background:rgba(255,255,255,.06)!important;color:#94a3b8!important}
-      `}</style>
-
-      {/* SIDEBAR */}
-      <aside
-        style={{
-          width: W,
-          minWidth: W,
-          background: "#0f172a",
-          display: "flex",
-          flexDirection: "column",
-          transition:
-            "width .28s cubic-bezier(.4,0,.2,1), min-width .28s cubic-bezier(.4,0,.2,1)",
-          overflow: "hidden",
-          flexShrink: 0,
-          borderRight: "1px solid rgba(255,255,255,.06)",
-        }}
-      >
-        {/* Logo */}
-        <div
-          style={{
-            padding: collapsed ? "20px 0" : "20px 16px",
-            borderBottom: "1px solid rgba(255,255,255,.07)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: collapsed ? "center" : "space-between",
-            gap: 10,
-            minHeight: 64,
-          }}
+    <>
+      <div className="app-container">
+        {/* SIDEBAR */}
+        <aside
+          className={`sidebar ${collapsed ? "collapsed" : ""} ${menuOpen ? "mobile-open" : ""}`}
         >
-          {!collapsed && (
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 10,
-                overflow: "hidden",
-              }}
-            >
-              <div
-                style={{
-                  width: 34,
-                  height: 34,
-                  borderRadius: 9,
-                  background: "linear-gradient(135deg,#3b82f6,#8b5cf6)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: "white",
-                  fontWeight: 800,
-                  fontSize: 14,
-                  flexShrink: 0,
-                }}
-              >
-                M
-              </div>
-              <div style={{ overflow: "hidden", whiteSpace: "nowrap" }}>
-                <div
-                  style={{ fontSize: 14, fontWeight: 700, color: "#f1f5f9" }}
-                >
-                  Mars IT
-                </div>
-                <div
-                  style={{
-                    fontSize: 10,
-                    color: "#475569",
-                    letterSpacing: "1.5px",
-                  }}
-                >
-                  DEVELOPERS
-                </div>
+          {/* Sidebar Header */}
+          <div className="sidebar-header">
+            <div className="sidebar-logo">
+              <div className="logo-icon">M</div>
+              <div className="logo-text">
+                <h3>Mars IT</h3>
+                <p>DEVELOPERS</p>
               </div>
             </div>
-          )}
-          {collapsed && (
-            <div
-              style={{
-                width: 34,
-                height: 34,
-                borderRadius: 9,
-                background: "linear-gradient(135deg,#3b82f6,#8b5cf6)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "white",
-                fontWeight: 800,
-                fontSize: 14,
-              }}
-            >
-              M
-            </div>
-          )}
-          {!collapsed && (
-            <button
-              onClick={() => setCollapsed(true)}
-              style={{
-                background: "none",
-                border: "1px solid rgba(255,255,255,.1)",
-                borderRadius: 7,
-                width: 28,
-                height: 28,
-                cursor: "pointer",
-                color: "#475569",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexShrink: 0,
-              }}
-            >
-              <svg
-                width="12"
-                height="12"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-              >
-                <path d="M15 18l-6-6 6-6" />
-              </svg>
-            </button>
-          )}
-        </div>
-
-        {/* Nav items */}
-        <nav
-          style={{
-            flex: 1,
-            padding: collapsed ? "10px 6px" : "10px 10px",
-            overflowY: "auto",
-            overflowX: "hidden",
-          }}
-        >
-          {!collapsed && (
-            <div
-              style={{
-                fontSize: 10,
-                color: "#334155",
-                letterSpacing: "1.5px",
-                padding: "4px 8px 8px",
-                fontWeight: 600,
-              }}
-            >
-              MENYU
-            </div>
-          )}
-          {PAGES.map((p) => {
-            const isA = page === p.id;
-            const Icon = p.icon;
-            return (
+            <div className="sidebar-logo-only">M</div>
+            {!collapsed && (
               <button
-                key={p.id}
-                className={isA ? "" : "nav-btn"}
-                onClick={() => setPage(p.id)}
-                title={collapsed ? p.label : undefined}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: collapsed ? 0 : 10,
-                  justifyContent: collapsed ? "center" : "flex-start",
-                  width: "100%",
-                  padding: collapsed ? "10px 0" : "9px 10px",
-                  marginBottom: 2,
-                  background: isA ? "rgba(59,130,246,.14)" : "transparent",
-                  color: isA ? "#60a5fa" : "#475569",
-                  border: isA
-                    ? "1px solid rgba(59,130,246,.22)"
-                    : "1px solid transparent",
-                  borderRadius: 9,
-                  cursor: "pointer",
-                  fontSize: 13,
-                  fontWeight: isA ? 600 : 400,
-                  textAlign: "left",
-                  transition: "all .15s",
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                }}
+                className="sidebar-toggle"
+                onClick={() => setCollapsed(true)}
               >
-                <span style={{ flexShrink: 0, display: "flex" }}>
-                  <Icon s={16} a={isA} />
-                </span>
-                {!collapsed && (
-                  <span
-                    style={{ overflow: "hidden", textOverflow: "ellipsis" }}
-                  >
-                    {p.label}
-                  </span>
-                )}
-                {!collapsed && isA && (
-                  <span
-                    style={{
-                      marginLeft: "auto",
-                      width: 5,
-                      height: 5,
-                      borderRadius: "50%",
-                      background: "#3b82f6",
-                      flexShrink: 0,
-                    }}
-                  />
-                )}
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                >
+                  <path d="M15 18l-6-6 6-6" />
+                </svg>
               </button>
-            );
-          })}
-        </nav>
+            )}
+          </div>
 
-        {/* Collapse button when collapsed */}
-        {collapsed && (
-          <div
-            style={{
-              padding: "10px 6px",
-              borderTop: "1px solid rgba(255,255,255,.07)",
-            }}
-          >
+          {/* Navigation */}
+          <nav className="sidebar-nav">
+            <div className="nav-label">MENYU</div>
+            {PAGES.map((p) => {
+              const isA = page === p.id;
+              const Icon = p.icon;
+              return (
+                <button
+                  key={p.id}
+                  className={`nav-btn ${isA ? "active" : ""}`}
+                  onClick={() => {
+                    setPage(p.id);
+                    closeMobileMenu();
+                  }}
+                  title={collapsed ? p.label : undefined}
+                >
+                  <span className="nav-btn-icon">
+                    <Icon s={16} a={isA} />
+                  </span>
+                  <span className="nav-btn-text">{p.label}</span>
+                  {isA && <span className="nav-indicator" />}
+                </button>
+              );
+            })}
+          </nav>
+
+          {/* Expand Button */}
+          {collapsed && (
             <button
+              className="sidebar-expand-btn"
               onClick={() => setCollapsed(false)}
-              style={{
-                width: "100%",
-                background: "rgba(255,255,255,.04)",
-                border: "1px solid rgba(255,255,255,.08)",
-                borderRadius: 8,
-                padding: "8px 0",
-                cursor: "pointer",
-                color: "#475569",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
             >
               <svg
                 width="12"
@@ -595,109 +425,71 @@ export default function App() {
                 <path d="M9 18l6-6-6-6" />
               </svg>
             </button>
-          </div>
-        )}
+          )}
 
-        {!collapsed && (
-          <div
-            style={{
-              padding: "12px 16px",
-              borderTop: "1px solid rgba(255,255,255,.06)",
-              fontSize: 11,
-              color: "#1e293b",
-              lineHeight: 1.6,
-            }}
-          >
-            Mars IT Developers
-            <br />
-            <span style={{ color: "#0f172a" }}>Toshkent, 2024</span>
-          </div>
-        )}
-      </aside>
+          {/* Footer */}
+          {!collapsed && (
+            <div className="sidebar-footer">
+              Mars IT Developers
+              <br />
+              <span>Toshkent, 2024</span>
+            </div>
+          )}
+        </aside>
 
-      {/* MAIN */}
-      <div
-        style={{
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-          overflow: "hidden",
-        }}
-      >
-        {/* Topbar */}
-        <header
-          style={{
-            height: 54,
-            background: "#fff",
-            borderBottom: "1px solid #e2e8f0",
-            display: "flex",
-            alignItems: "center",
-            padding: "0 28px",
-            gap: 16,
-            flexShrink: 0,
-          }}
-        >
-          <div style={{ flex: 1 }}>
-            <span style={{ fontSize: 15, fontWeight: 700, color: "#0f172a" }}>
+        {/* SIDEBAR OVERLAY (Mobile) */}
+        <div
+          className={`sidebar-overlay ${menuOpen ? "active" : ""}`}
+          onClick={closeMobileMenu}
+        />
+
+        {/* MAIN CONTENT */}
+        <div className="main-wrapper">
+          {/* Header */}
+          <header className="header">
+            <button
+              className="hamburger-menu"
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              {menuOpen ? "✕" : "☰"}
+            </button>
+            <span className="header-title">
               {PAGES.find((p) => p.id === page)?.label}
             </span>
-          </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 6,
-                background: "#f0fdf4",
-                border: "1px solid #bbf7d0",
-                borderRadius: 20,
-                padding: "5px 12px",
-                fontSize: 12,
-                color: "#15803d",
-              }}
-            >
-              <span
-                style={{
-                  width: 5,
-                  height: 5,
-                  borderRadius: "50%",
-                  background: "#22c55e",
-                  animation: "pulse 2s infinite",
-                }}
-              />
-              Beta bosqichi
+            <div className="header-right">
+              <div className="status-badge">
+                <span className="pulse-dot" />
+                Beta bosqichi
+              </div>
+              <div className="user-avatar">M</div>
             </div>
-            <div
-              style={{
-                width: 32,
-                height: 32,
-                borderRadius: 9,
-                background: "linear-gradient(135deg,#3b82f6,#8b5cf6)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "white",
-                fontWeight: 700,
-                fontSize: 13,
-              }}
-            >
-              M
-            </div>
-          </div>
-        </header>
+          </header>
 
-        {/* Page */}
-        <main style={{ flex: 1, overflowY: "auto", background: "#f8fafc" }}>
-          {page === "home" && <HomePage nav={setPage} />}
-          {page === "problem" && <ProblemPage />}
-          {page === "team" && <TeamPage />}
-          {page === "why" && <WhyPage />}
-          {page === "roadmap" && <RoadmapPage />}
-          {page === "plan" && <PlanPage />}
-          {page === "demo" && <DemoPage />}
-        </main>
+          {/* Page Content */}
+          <main className="page-content">
+            {page === "home" && <HomePage nav={setPage} />}
+            {page === "problem" && <ProblemPage />}
+            {page === "team" && <TeamPage />}
+            {page === "why" && <WhyPage />}
+            {page === "roadmap" && <RoadmapPage />}
+            {page === "plan" && <PlanPage />}
+            {page === "demo" && <DemoPage />}
+          </main>
+        </div>
       </div>
-    </div>
+      {/* Sidebar overlay click handler */}
+      {menuOpen && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 1,
+            background: "rgba(0,0,0,0.5)",
+          }}
+          onClick={closeMobileMenu}
+        />
+      )}
+    </>
   );
 }
 
@@ -705,9 +497,7 @@ export default function App() {
 function HomePage({ nav }) {
   return (
     <Fade>
-      <div
-        style={{ padding: "36px 40px 60px", maxWidth: 960, margin: "0 auto" }}
-      >
+      <div className="page-wrapper">
         <div
           style={{
             background:
@@ -964,9 +754,7 @@ function HomePage({ nav }) {
 function ProblemPage() {
   return (
     <Fade>
-      <div
-        style={{ padding: "36px 40px 60px", maxWidth: 960, margin: "0 auto" }}
-      >
+      <div className="page-wrapper">
         <PH
           tag="01 — Muammo & Yechim"
           title="Qanday muammoni hal qilayapmiz?"
@@ -1220,9 +1008,7 @@ function TeamPage() {
   const [open, setOpen] = useState(null);
   return (
     <Fade>
-      <div
-        style={{ padding: "36px 40px 60px", maxWidth: 960, margin: "0 auto" }}
-      >
+      <div className="page-wrapper">
         <PH
           tag="02 — Jamoa"
           title="Mars IT Developers"
@@ -1508,9 +1294,7 @@ function TeamPage() {
 function WhyPage() {
   return (
     <Fade>
-      <div
-        style={{ padding: "36px 40px 60px", maxWidth: 960, margin: "0 auto" }}
-      >
+      <div className="page-wrapper">
         <PH
           tag="03 — Nega biz?"
           title="Jamoamizning afzalliklari"
@@ -1693,9 +1477,7 @@ function RoadmapPage() {
   const r = ROADMAP[active];
   return (
     <Fade>
-      <div
-        style={{ padding: "36px 40px 60px", maxWidth: 960, margin: "0 auto" }}
-      >
+      <div className="page-wrapper">
         <PH
           tag="04 — Yo'l xaritasi"
           title="Rivojlanish bosqichlari"
@@ -1974,9 +1756,7 @@ function RoadmapPage() {
 function PlanPage() {
   return (
     <Fade>
-      <div
-        style={{ padding: "36px 40px 60px", maxWidth: 960, margin: "0 auto" }}
-      >
+      <div className="page-wrapper">
         <PH
           tag="05 — Amalga oshirish"
           title="Texnologiyalar va rejalar"
@@ -2254,9 +2034,7 @@ function PlanPage() {
 function DemoPage() {
   return (
     <Fade>
-      <div
-        style={{ padding: "36px 40px 60px", maxWidth: 960, margin: "0 auto" }}
-      >
+      <div className="page-wrapper">
         <PH
           tag="06 — Demo"
           title="Loyiha namoyishi"
