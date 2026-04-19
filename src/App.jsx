@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./App.css";
+import video from "./assets/tushuntirish.mp4";
 
 const PAGES = [
   { id: "home", label: "Bosh sahifa", icon: HomeIcon },
@@ -562,54 +563,11 @@ function HomePage({ nav }) {
             EduMars — O'zbekistondagi maktablar va o'quv markazlari uchun AI
             asosida ishlaydigan aqlli boshqaruv platformasi.
           </p>
-          <div style={{ display: "flex", gap: 12 }}>
-            <button
-              onClick={() => nav("demo")}
-              style={{
-                background: "#3b82f6",
-                color: "white",
-                border: "none",
-                borderRadius: 10,
-                padding: "11px 26px",
-                fontSize: 13,
-                fontWeight: 600,
-                cursor: "pointer",
-                transition: "all .18s",
-              }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.background = "#2563eb")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.background = "#3b82f6")
-              }
-            >
-              Demo ko'rish
-            </button>
-            <button
-              onClick={() => nav("problem")}
-              style={{
-                background: "rgba(255,255,255,.08)",
-                color: "white",
-                border: "1px solid rgba(255,255,255,.15)",
-                borderRadius: 10,
-                padding: "11px 26px",
-                fontSize: 13,
-                cursor: "pointer",
-                transition: "all .18s",
-              }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.background = "rgba(255,255,255,.14)")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.background = "rgba(255,255,255,.08)")
-              }
-            >
-              Muammo haqida
-            </button>
-          </div>
+          <div style={{ display: "flex", gap: 12 }}></div>
           <div
             style={{
               display: "flex",
+              flexWrap: "wrap",
               gap: 40,
               marginTop: 40,
               paddingTop: 32,
@@ -641,13 +599,7 @@ function HomePage({ nav }) {
           </div>
         </div>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: 14,
-          }}
-        >
+        <div className="grid-3" style={{ gap: 14, marginBottom: 28 }}>
           {[
             {
               id: "problem",
@@ -760,14 +712,7 @@ function ProblemPage() {
           title="Qanday muammoni hal qilayapmiz?"
           sub="O'zbekistondagi ta'lim muassasalari boshqaruvida mavjud bo'shliqlar"
         />
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: 22,
-            marginBottom: 28,
-          }}
-        >
+        <div className="grid-2" style={{ gap: 22, marginBottom: 28 }}>
           <div
             style={{
               background: "#fff",
@@ -930,13 +875,7 @@ function ProblemPage() {
             ))}
           </div>
         </div>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: 14,
-          }}
-        >
+        <div className="grid-4" style={{ gap: 14, marginBottom: 28 }}>
           {[
             { n: "9,900+", l: "Maktablar", c: "#2563eb", bg: "#eff6ff" },
             { n: "~6M", l: "O'quvchilar", c: "#7c3aed", bg: "#faf5ff" },
@@ -1014,14 +953,7 @@ function TeamPage() {
           title="Mars IT Developers"
           sub="To'rt nafar ixtisoslashgan muhandis birgalikda ishlayapti"
         />
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: 18,
-            marginBottom: 28,
-          }}
-        >
+        <div className="grid-2" style={{ gap: 18, marginBottom: 28 }}>
           {TEAM.map((m, i) => (
             <div
               key={i}
@@ -1268,14 +1200,7 @@ function WhyPage() {
           title="Jamoamizning afzalliklari"
           sub="Bu muammoni aynan biz hal qila olishimizning sabablari"
         />
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: 16,
-            marginBottom: 28,
-          }}
-        >
+        <div className="grid-3" style={{ gap: 16, marginBottom: 28 }}>
           {[
             {
               title: "Mahalliy kontekst",
@@ -1439,287 +1364,6 @@ function WhyPage() {
   );
 }
 
-/* ── ROADMAP ── */
-function RoadmapPage() {
-  const [active, setActive] = useState(2);
-  const r = ROADMAP[active];
-  return (
-    <Fade>
-      <div className="page-wrapper">
-        <PH
-          tag="04 — Yo'l xaritasi"
-          title="Rivojlanish bosqichlari"
-          sub="Idea dan Launched gacha — har bir bosqich rejasi"
-        />
-        <div
-          style={{
-            display: "flex",
-            marginBottom: 28,
-            borderRadius: 12,
-            overflow: "hidden",
-            border: "1px solid #e2e8f0",
-          }}
-        >
-          {ROADMAP.map((item, i) => (
-            <button
-              key={i}
-              onClick={() => setActive(i)}
-              style={{
-                flex: 1,
-                padding: "14px 10px",
-                background:
-                  active === i
-                    ? item.status === "done"
-                      ? "#f0fdf4"
-                      : item.status === "active"
-                        ? "#eff6ff"
-                        : "#f8fafc"
-                    : "white",
-                border: "none",
-                borderRight: i < 3 ? "1px solid #e2e8f0" : "none",
-                cursor: "pointer",
-                transition: "all .15s",
-              }}
-            >
-              <div
-                style={{
-                  fontSize: 9,
-                  fontWeight: 700,
-                  letterSpacing: "1.5px",
-                  color:
-                    item.status === "done"
-                      ? "#15803d"
-                      : item.status === "active"
-                        ? "#2563eb"
-                        : "#94a3b8",
-                  marginBottom: 4,
-                }}
-              >
-                {item.status === "done"
-                  ? "BAJARILDI"
-                  : item.status === "active"
-                    ? "JARAYONDA"
-                    : "REJALASHTIRILGAN"}
-              </div>
-              <div
-                style={{
-                  fontSize: 13,
-                  fontWeight: 700,
-                  color: active === i ? "#0f172a" : "#64748b",
-                }}
-              >
-                {item.phase}
-              </div>
-              <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>
-                {item.date}
-              </div>
-            </button>
-          ))}
-        </div>
-        <div
-          style={{
-            background: "#fff",
-            borderRadius: 16,
-            border: "1px solid #e2e8f0",
-            overflow: "hidden",
-            marginBottom: 22,
-          }}
-        >
-          <div
-            style={{
-              padding: "22px 26px",
-              background:
-                r.status === "done"
-                  ? "#f0fdf4"
-                  : r.status === "active"
-                    ? "#eff6ff"
-                    : "#f8fafc",
-              borderBottom: "1px solid #e2e8f0",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <div>
-              <div
-                style={{
-                  fontSize: 10,
-                  fontWeight: 700,
-                  letterSpacing: "1.5px",
-                  color:
-                    r.status === "done"
-                      ? "#15803d"
-                      : r.status === "active"
-                        ? "#2563eb"
-                        : "#64748b",
-                }}
-              >
-                {r.date} — {r.phase}
-              </div>
-              <h3
-                style={{
-                  fontSize: 18,
-                  fontWeight: 700,
-                  color: "#0f172a",
-                  marginTop: 4,
-                }}
-              >
-                {r.title}
-              </h3>
-            </div>
-            <div
-              style={{
-                padding: "5px 14px",
-                borderRadius: 20,
-                fontSize: 11,
-                fontWeight: 600,
-                background:
-                  r.status === "done"
-                    ? "#dcfce7"
-                    : r.status === "active"
-                      ? "#dbeafe"
-                      : "#f1f5f9",
-                color:
-                  r.status === "done"
-                    ? "#15803d"
-                    : r.status === "active"
-                      ? "#2563eb"
-                      : "#64748b",
-              }}
-            >
-              {r.status === "done"
-                ? "Bajarildi"
-                : r.status === "active"
-                  ? "Jarayonda"
-                  : "Rejalashtirilgan"}
-            </div>
-          </div>
-          <div
-            style={{
-              padding: "22px 26px",
-              display: "grid",
-              gridTemplateColumns: "repeat(2, 1fr)",
-              gap: 10,
-            }}
-          >
-            {r.items.map((item, i) => (
-              <div
-                key={i}
-                style={{ display: "flex", gap: 9, alignItems: "flex-start" }}
-              >
-                <div
-                  style={{
-                    width: 16,
-                    height: 16,
-                    borderRadius: "50%",
-                    background:
-                      r.status === "done"
-                        ? "#dcfce7"
-                        : r.status === "active"
-                          ? "#dbeafe"
-                          : "#f1f5f9",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexShrink: 0,
-                    marginTop: 1,
-                  }}
-                >
-                  {r.status === "done" ? (
-                    <svg width="7" height="7" viewBox="0 0 12 12" fill="none">
-                      <path
-                        d="M2 6l3 3 5-5"
-                        stroke="#15803d"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  ) : r.status === "active" ? (
-                    <div
-                      style={{
-                        width: 4,
-                        height: 4,
-                        borderRadius: "50%",
-                        background: "#2563eb",
-                      }}
-                    />
-                  ) : (
-                    <div
-                      style={{
-                        width: 4,
-                        height: 4,
-                        borderRadius: "50%",
-                        background: "#cbd5e1",
-                      }}
-                    />
-                  )}
-                </div>
-                <span
-                  style={{ fontSize: 13, color: "#475569", lineHeight: 1.6 }}
-                >
-                  {item}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div
-          style={{
-            background: "#fff",
-            borderRadius: 12,
-            padding: "20px 22px",
-            border: "1px solid #e2e8f0",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              marginBottom: 8,
-              fontSize: 13,
-            }}
-          >
-            <span style={{ fontWeight: 600, color: "#0f172a" }}>
-              Umumiy progress
-            </span>
-            <span style={{ color: "#2563eb", fontWeight: 600 }}>55%</span>
-          </div>
-          <div
-            style={{
-              height: 7,
-              background: "#f1f5f9",
-              borderRadius: 4,
-              overflow: "hidden",
-            }}
-          >
-            <div
-              style={{
-                height: "100%",
-                width: "55%",
-                borderRadius: 4,
-                background: "linear-gradient(90deg,#3b82f6,#8b5cf6)",
-              }}
-            />
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              marginTop: 7,
-              fontSize: 11,
-              color: "#94a3b8",
-            }}
-          >
-            <span>Boshlandi — Q1 2024</span>
-            <span>Maqsad — Q1 2025</span>
-          </div>
-        </div>
-      </div>
-    </Fade>
-  );
-}
-
 /* ── PLAN ── */
 function PlanPage() {
   return (
@@ -1730,14 +1374,7 @@ function PlanPage() {
           title="Texnologiyalar va rejalar"
           sub="Bosqichlar, texnologiyalar staki va AI vositalari"
         />
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: 14,
-            marginBottom: 26,
-          }}
-        >
+        <div className="grid-3" style={{ gap: 14, marginBottom: 26 }}>
           {TECH.map((s, i) => (
             <div
               key={i}
@@ -2008,110 +1645,14 @@ function DemoPage({ nav }) {
           title="Loyiha namoyishi"
           sub="Demo-video, tavsif va ishlaydigan prototip havolasi"
         />
-        <div
-          style={{
-            background: "#0f172a",
-            borderRadius: 18,
-            overflow: "hidden",
-            position: "relative",
-            marginBottom: 26,
-            border: "1px solid rgba(255,255,255,.08)",
-            aspectRatio: "16/9",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              backgroundImage:
-                "radial-gradient(ellipse at 30% 50%,rgba(59,130,246,.12) 0%,transparent 60%),radial-gradient(ellipse at 70% 50%,rgba(139,92,246,.12) 0%,transparent 60%)",
-            }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              opacity: 0.03,
-              backgroundImage:
-                "linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px)",
-              backgroundSize: "50px 50px",
-            }}
-          />
-          <div style={{ textAlign: "center", position: "relative", zIndex: 2 }}>
-            <div
-              style={{
-                width: 68,
-                height: 68,
-                borderRadius: "50%",
-                background: "rgba(59,130,246,.18)",
-                border: "2px solid rgba(59,130,246,.4)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                margin: "0 auto 14px",
-                cursor: "pointer",
-                transition: "all .2s",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = "rgba(59,130,246,.28)";
-                e.currentTarget.style.transform = "scale(1.06)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = "rgba(59,130,246,.18)";
-                e.currentTarget.style.transform = "scale(1)";
-              }}
-            >
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="#60a5fa">
-                <polygon points="5 3 19 12 5 21 5 3" />
-              </svg>
-            </div>
-            <div style={{ color: "rgba(255,255,255,.45)", fontSize: 12 }}>
-              EduMars — Demo video
-            </div>
-            <div
-              style={{
-                color: "rgba(255,255,255,.25)",
-                fontSize: 11,
-                marginTop: 3,
-              }}
-            >
-              3 daqiqa 42 soniya
-            </div>
-          </div>
-          <div
-            style={{
-              position: "absolute",
-              top: 14,
-              left: 14,
-              background: "rgba(220,38,38,.82)",
-              borderRadius: 5,
-              padding: "4px 10px",
-              fontSize: 10,
-              fontWeight: 700,
-              color: "white",
-              display: "flex",
-              alignItems: "center",
-              gap: 5,
-            }}
-          >
-            <span
-              style={{
-                width: 5,
-                height: 5,
-                borderRadius: "50%",
-                background: "white",
-                animation: "pulse 1.5s infinite",
-              }}
-            />
-            DEMO
-          </div>
+       
+        <div className="demo-video-frame">
+          <video controls className="demo-video" preload="metadata">
+            <source src={video} type="video/mp4" />
+            Browseringiz video tegi qo'llab-quvvatlamaydi.
+          </video>
         </div>
-        <div
-          style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 22 }}
-        >
+        <div className="grid-2 demo-grid">
           <div
             style={{
               background: "#fff",
@@ -2139,10 +1680,16 @@ function DemoPage({ nav }) {
                   marginBottom: 16,
                 }}
               >
-                Bu sayt Mars IT Developers jamoasining EduMars g'oyasini taqdim
-                etish uchun yaratilgan musobaqa loyihasi. Saytda muammo va uning
-                yechimi, jamoa tarkibi, yo'l xaritasi va amalga oshirish rejasi
-                batafsil ko'rsatilgan.
+                Bu sayt Mars IT Developers jamoasining EduMars loyihasini taqdim
+                etish uchun yaratilgan musobaqa demo-platformasi. Saytda
+                muammoning kelib chiqishi va uning yechimi, jamoa tarkibi va har
+                bir a'zoning roli, loyihaning yo'l xaritasi, texnologiyalar
+                staki hamda demo-video batafsil ko'rsatilgan. Loyiha 2025-yilda
+                Mars IT School bitiruvchilari — Usmonov Ilyosxoja, Muxtorov
+                Rustambek, Karimov Sarvar va Meliqoziyev Jo'rabek tomonidan
+                tashkil topgan. Jamoaning maqsadi — zamonaviy AI texnologiyalar
+                yordamida ta'lim muassasalarini raqamlashtirish va boshqaruvni
+                soddalashtirish.
               </p>
 
               {/* Jamoa kartochkalari */}
