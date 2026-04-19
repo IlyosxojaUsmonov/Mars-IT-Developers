@@ -14,9 +14,9 @@ const PAGES = [
 const TEAM = [
   {
     name: "Karimov Sarvar",
-    role: "Lead Developer & Founder",
+    role: "Frontend Developer",
     skills: ["React", "Node.js", "System Architecture"],
-    stack: ["TypeScript", "PostgreSQL", "Docker"],
+    stack: ["Html", "Css", "JavaScript", "react"],
     accent: "#2563eb",
     light: "#eff6ff",
     initials: "KS",
@@ -24,9 +24,9 @@ const TEAM = [
   },
   {
     name: "Meliqoziyev Jo'rabek",
-    role: "Frontend Engineer",
+    role: "Frontend Developer",
     skills: ["React", "UI/UX Design", "Animation"],
-    stack: ["Next.js", "TailwindCSS", "Figma"],
+    stack: ["Html", "Css", "JavaScript", "react"],
     accent: "#059669",
     light: "#ecfdf5",
     initials: "MJ",
@@ -34,9 +34,9 @@ const TEAM = [
   },
   {
     name: "Usmonov Ilyosxoja",
-    role: "Backend & AI Engineer",
+    role: "Backend Engineer",
     skills: ["Python", "API Design", "AI/ML"],
-    stack: ["FastAPI", "TensorFlow", "Redis"],
+    stack: ["Html", "Css", "JavaScript", "react"],
     accent: "#7c3aed",
     light: "#f5f3ff",
     initials: "UI",
@@ -44,9 +44,9 @@ const TEAM = [
   },
   {
     name: "Muxtorov Rustambek",
-    role: "Mobile & DevOps Engineer",
+    role: "Design Lead",
     skills: ["React Native", "CI/CD", "Cloud"],
-    stack: ["AWS", "Kubernetes", "Flutter"],
+    stack: ["Html", "Css", "JavaScript", "react"],
     accent: "#d97706",
     light: "#fffbeb",
     initials: "MR",
@@ -473,7 +473,7 @@ export default function App() {
             {page === "why" && <WhyPage />}
             {page === "roadmap" && <RoadmapPage />}
             {page === "plan" && <PlanPage />}
-            {page === "demo" && <DemoPage />}
+            {page === "demo" && <DemoPage nav={setPage} />}
           </main>
         </div>
       </div>
@@ -1185,40 +1185,6 @@ function TeamPage() {
                       </span>
                     ))}
                   </div>
-                  <div style={{ display: "flex", gap: 8 }}>
-                    <a
-                      href="#"
-                      style={{
-                        flex: 1,
-                        textAlign: "center",
-                        background: "#0f172a",
-                        color: "white",
-                        borderRadius: 7,
-                        padding: "8px",
-                        fontSize: 12,
-                        textDecoration: "none",
-                        fontWeight: 500,
-                      }}
-                    >
-                      GitHub
-                    </a>
-                    <a
-                      href="#"
-                      style={{
-                        flex: 1,
-                        textAlign: "center",
-                        background: "#0077b5",
-                        color: "white",
-                        borderRadius: 7,
-                        padding: "8px",
-                        fontSize: 12,
-                        textDecoration: "none",
-                        fontWeight: 500,
-                      }}
-                    >
-                      LinkedIn
-                    </a>
-                  </div>
                 </div>
               )}
             </div>
@@ -1255,15 +1221,17 @@ function TeamPage() {
                 lineHeight: 1.75,
               }}
             >
-              2024-yilda Toshkentda tashkil topgan startap. Maqsadimiz —
+              2025-yilda Mars IT School bitiruvchilari — Usmonov Ilyosxoja,
+              Muxtorov Rustam, Karimov Sarvar va Jorabek Meliqoziyev tomonidan
+              tashkil topgan Mars IT Developers jamoasi EduMars loyihasi orqali
               O'zbekistondagi ta'lim muassasalarini raqamlashtirish va AI
-              yordamida samaradorlikni oshirish.
+              yordamida samaradorlikni oshirishni maqsad qilgan.
             </p>
           </div>
           <div style={{ display: "flex", gap: 28 }}>
             {[
               ["4", "Jamoa a'zosi"],
-              ["2024", "Tashkil yili"],
+              ["2025", "Tashkil yili"],
               ["MVP", "Hozirgi bosqich"],
             ].map(([n, l]) => (
               <div key={l} style={{ textAlign: "center" }}>
@@ -2031,7 +1999,7 @@ function PlanPage() {
 }
 
 /* ── DEMO ── */
-function DemoPage() {
+function DemoPage({ nav }) {
   return (
     <Fade>
       <div className="page-wrapper">
@@ -2159,7 +2127,7 @@ function DemoPage() {
               }}
             >
               <h3 style={{ fontSize: 14, fontWeight: 700, color: "#0f172a" }}>
-                Demo-video tavsifi
+                Sayt tavsifi
               </h3>
             </div>
             <div style={{ padding: "18px 22px" }}>
@@ -2171,93 +2139,112 @@ function DemoPage() {
                   marginBottom: 16,
                 }}
               >
-                Ushbu demo-videoda EduMars platformasining asosiy funksiyalari
-                ko'rsatilgan. Platforma o'qituvchi, ota-ona va admin nuqtai
-                nazaridan namoyish etiladi.
+                Bu sayt Mars IT Developers jamoasining EduMars g'oyasini taqdim
+                etish uchun yaratilgan musobaqa loyihasi. Saytda muammo va uning
+                yechimi, jamoa tarkibi, yo'l xaritasi va amalga oshirish rejasi
+                batafsil ko'rsatilgan.
               </p>
-              {[
-                ["0:00–0:45", "Kirish va platforma tanishuvi", "#2563eb"],
-                [
-                  "0:45–1:30",
-                  "O'qituvchi paneli — davomat va baholar",
-                  "#7c3aed",
-                ],
-                ["1:30–2:15", "AI tahlil va bashorat funksiyasi", "#059669"],
-                ["2:15–3:00", "Ota-ona mobil ilovasi demo", "#d97706"],
-                ["3:00–3:42", "Admin panel va hisobotlar", "#dc2626"],
-              ].map(([time, desc, c]) => (
-                <div
-                  key={time}
-                  style={{
-                    display: "flex",
-                    gap: 9,
-                    marginBottom: 9,
-                    alignItems: "center",
-                  }}
-                >
-                  <span
+
+              {/* Jamoa kartochkalari */}
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                {[
+                  {
+                    name: "Usmonov Ilyosxoja",
+                    initials: "UI",
+                    color: "#2563eb",
+                  },
+                  { name: "Muxtorov Rustam", initials: "MR", color: "#7c3aed" },
+                  { name: "Karimov Sarvar", initials: "KS", color: "#059669" },
+                  {
+                    name: "Jorabek Meliqoziyev",
+                    initials: "JM",
+                    color: "#d97706",
+                  },
+                ].map((member) => (
+                  <div
+                    key={member.name}
+                    onClick={() => nav("team")}
                     style={{
-                      background: c + "14",
-                      color: c,
-                      borderRadius: 5,
-                      padding: "2px 7px",
-                      fontSize: 10,
-                      fontWeight: 700,
-                      flexShrink: 0,
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 8,
+                      background: member.color + "10",
+                      border: `1.5px solid ${member.color}30`,
+                      borderRadius: 10,
+                      padding: "8px 12px",
+                      cursor: "pointer",
+                      transition: "all .18s",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = "translateY(-2px)";
+                      e.currentTarget.style.boxShadow = `0 4px 12px ${member.color}25`;
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = "translateY(0)";
+                      e.currentTarget.style.boxShadow = "none";
                     }}
                   >
-                    {time}
-                  </span>
-                  <span style={{ fontSize: 12, color: "#475569" }}>{desc}</span>
-                </div>
-              ))}
+                    <div
+                      style={{
+                        width: 28,
+                        height: 28,
+                        borderRadius: "50%",
+                        background: member.color,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: 10,
+                        fontWeight: 700,
+                        color: "#fff",
+                        flexShrink: 0,
+                      }}
+                    >
+                      {member.initials}
+                    </div>
+                    <span
+                      style={{
+                        fontSize: 12,
+                        fontWeight: 600,
+                        color: "#0f172a",
+                      }}
+                    >
+                      {member.name}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            {[
-              {
-                label: "Demo video (YouTube)",
-                sub: "youtube.com/mars-it-edu",
-                c: "#dc2626",
-                bg: "#fef2f2",
-                bd: "#fecaca",
-              },
-              {
-                label: "Ishlaydigan prototip",
-                sub: "edumars.vercel.app (beta)",
-                c: "#059669",
-                bg: "#f0fdf4",
-                bd: "#bbf7d0",
-              },
-              {
-                label: "GitHub Repository",
-                sub: "github.com/mars-it-developers",
-                c: "#0f172a",
-                bg: "#f8fafc",
-                bd: "#e2e8f0",
-              },
-              {
-                label: "Figma Dizayn",
-                sub: "figma.com/mars-it-edumars",
-                c: "#7c3aed",
-                bg: "#faf5ff",
-                bd: "#ddd6fe",
-              },
-            ].map((link) => (
-              <a
-                key={link.label}
-                href="#"
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              <p
+                style={{
+                  fontSize: 13,
+                  color: "#64748b",
+                  lineHeight: 1.7,
+                  margin: 0,
+                }}
+              >
+                Biznesingizga mos blogerlarni topish imkonini beruvchi platforma
+                — Adbloger.uz orqali o'z mahsulot yoki xizmatingizni to'g'ri
+                auditoriyaga yetkazishingiz mumkin.
+              </p>
+
+              <div
+                onClick={() =>
+                  window.open("https://www.adbloger.uz/", "_blank")
+                }
                 style={{
                   display: "flex",
                   alignItems: "center",
                   gap: 12,
-                  background: link.bg,
-                  border: `1.5px solid ${link.bd}`,
+                  background: "#eff6ff",
+                  border: "1.5px solid #bfdbfe",
                   borderRadius: 11,
                   padding: "14px 16px",
-                  textDecoration: "none",
                   transition: "all .18s",
                   color: "inherit",
+                  cursor: "pointer",
                 }}
                 onMouseEnter={(e) =>
                   (e.currentTarget.style.transform = "translateX(3px)")
@@ -2271,16 +2258,18 @@ function DemoPage() {
                     width: 7,
                     height: 7,
                     borderRadius: "50%",
-                    background: link.c,
+                    background: "#2563eb",
                     flexShrink: 0,
                   }}
                 />
                 <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: link.c }}>
-                    {link.label}
+                  <div
+                    style={{ fontSize: 13, fontWeight: 600, color: "#2563eb" }}
+                  >
+                    Adbloger.uz
                   </div>
                   <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>
-                    {link.sub}
+                    adbloger.uz
                   </div>
                 </div>
                 <svg
@@ -2294,59 +2283,6 @@ function DemoPage() {
                 >
                   <path d="M5 12h14M14 6l6 6-6 6" />
                 </svg>
-              </a>
-            ))}
-            <div
-              style={{
-                background: "#0f172a",
-                borderRadius: 11,
-                padding: "16px 18px",
-                marginTop: 2,
-              }}
-            >
-              <div
-                style={{
-                  fontSize: 10,
-                  color: "#60a5fa",
-                  fontWeight: 700,
-                  letterSpacing: "1px",
-                  marginBottom: 7,
-                }}
-              >
-                PROTOTIP HOLATI
-              </div>
-              <p
-                style={{
-                  fontSize: 12,
-                  color: "rgba(255,255,255,.5)",
-                  lineHeight: 1.7,
-                }}
-              >
-                Beta foydalanuvchilar bilan test o'tkazilmoqda. Asosiy
-                funksiyalar ishlamoqda.
-              </p>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 6,
-                  marginTop: 9,
-                }}
-              >
-                <span
-                  style={{
-                    width: 5,
-                    height: 5,
-                    borderRadius: "50%",
-                    background: "#22c55e",
-                    animation: "pulse 2s infinite",
-                  }}
-                />
-                <span
-                  style={{ fontSize: 11, color: "#22c55e", fontWeight: 500 }}
-                >
-                  Beta — Faol
-                </span>
               </div>
             </div>
           </div>
