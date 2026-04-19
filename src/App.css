@@ -772,102 +772,6 @@ body {
   line-height: 1.6;
 }
 
-/* ===== ROADMAP ===== */
-
-.roadmap-item {
-  background: white;
-  border-radius: 12px;
-  padding: 24px;
-  border-left: 4px solid;
-  margin-bottom: 16px;
-  transition: all 0.2s;
-}
-
-.roadmap-item.done {
-  border-left-color: #22c55e;
-  background: #f0fdf4;
-}
-
-.roadmap-item.active {
-  border-left-color: #3b82f6;
-  background: #eff6ff;
-}
-
-.roadmap-item.upcoming {
-  border-left-color: #94a3b8;
-  background: #f8fafc;
-}
-
-.roadmap-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 8px;
-}
-
-.roadmap-phase {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  min-width: 60px;
-}
-
-.roadmap-item.done .roadmap-phase {
-  color: #15803d;
-}
-
-.roadmap-item.active .roadmap-phase {
-  color: #1e40af;
-}
-
-.roadmap-item.upcoming .roadmap-phase {
-  color: #475569;
-}
-
-.roadmap-date {
-  font-size: 11px;
-  color: #94a3b8;
-  margin-left: auto;
-}
-
-.roadmap-title {
-  font-size: 15px;
-  font-weight: 700;
-  color: #0f172a;
-  margin-bottom: 8px;
-}
-
-.roadmap-list {
-  list-style: none;
-  padding: 0;
-  margin: 8px 0 0 0;
-}
-
-.roadmap-list li {
-  font-size: 13px;
-  color: #64748b;
-  padding: 4px 0;
-  line-height: 1.5;
-}
-
-.roadmap-list li::before {
-  content: "✓ ";
-  color: #22c55e;
-  font-weight: 700;
-  margin-right: 4px;
-}
-
-.roadmap-item.active .roadmap-list li::before {
-  color: #3b82f6;
-  content: "◆ ";
-}
-
-.roadmap-item.upcoming .roadmap-list li::before {
-  color: #94a3b8;
-  content: "◇ ";
-}
-
 /* ===== TECH STACK ===== */
 
 .tech-item {
@@ -1088,29 +992,6 @@ body {
   .team-description {
     font-size: 12px;
   }
-  .roadmap-item {
-    padding: 16px;
-    margin-bottom: 12px;
-    border-radius: 10px;
-  }
-  .roadmap-header {
-    gap: 8px;
-    margin-bottom: 8px;
-  }
-  .roadmap-phase {
-    font-size: 10px;
-    min-width: 50px;
-  }
-  .roadmap-date {
-    font-size: 10px;
-  }
-  .roadmap-title {
-    font-size: 14px;
-    margin-bottom: 8px;
-  }
-  .roadmap-list li {
-    font-size: 12px;
-  }
   .tech-item {
     padding: 16px;
     margin-bottom: 12px;
@@ -1213,15 +1094,6 @@ body {
   }
   .team-info p {
     font-size: 10px;
-  }
-  .roadmap-item {
-    padding: 12px;
-  }
-  .roadmap-title {
-    font-size: 13px;
-  }
-  .roadmap-list li {
-    font-size: 11px;
   }
   .tech-item {
     padding: 12px;

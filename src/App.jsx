@@ -7,7 +7,6 @@ const PAGES = [
   { id: "problem", label: "Muammo & Yechim", icon: ProblemIcon },
   { id: "team", label: "Jamoa", icon: TeamIcon },
   { id: "why", label: "Nega biz?", icon: WhyIcon },
-  { id: "roadmap", label: "Yo'l xaritasi", icon: RoadIcon },
   { id: "plan", label: "Amalga oshirish", icon: PlanIcon },
   { id: "demo", label: "Demo", icon: DemoIcon },
 ];
@@ -52,57 +51,6 @@ const TEAM = [
     light: "#fffbeb",
     initials: "MR",
     desc: "Mobil ilovalar va bulut infratuzilmasini boshqarish bo'yicha tajribali muhandis. Deploy pipeline va monitoring tizimlarini sozlaydi.",
-  },
-];
-
-const ROADMAP = [
-  {
-    phase: "IDEA",
-    date: "Q1 2024",
-    title: "G'oya va tadqiqot",
-    status: "done",
-    items: [
-      "Bozor tahlili o'tkazildi",
-      "Muammolar aniqlashtildi",
-      "Maqsadli auditoriya belgilandi",
-      "Raqobatchilar tahlil qilindi",
-    ],
-  },
-  {
-    phase: "PROTOTYPE",
-    date: "Q2 2024",
-    title: "Prototip bosqichi",
-    status: "done",
-    items: [
-      "UI/UX dizayn yaratildi",
-      "MVP arxitekturasi loyihalandi",
-      "Texnik stack tanlandi",
-      "Dastlabki demo ko'rsatildi",
-    ],
-  },
-  {
-    phase: "MVP",
-    date: "Q3–Q4 2024",
-    title: "MVP ishlab chiqish",
-    status: "active",
-    items: [
-      "Asosiy funksiyalar qurilmoqda",
-      "Beta foydalanuvchilar jalb qilinmoqda",
-      "AI model o'qitilmoqda",
-      "Foydalanuvchi fikri yig'ilmoqda",
-    ],
-  },
-  {
-    phase: "LAUNCHED",
-    date: "Q1 2025",
-    title: "Rasmiy ishga tushirish",
-    status: "upcoming",
-    items: [
-      "App Store & Play Store",
-      "Marketing kampaniya",
-      "Muassasalar bilan shartnoma",
-      "Kengaytirish rejasi",
-    ],
   },
 ];
 
@@ -217,26 +165,6 @@ function WhyIcon({ s = 16, a }) {
       strokeLinejoin="round"
     >
       <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-    </svg>
-  );
-}
-function RoadIcon({ s = 16, a }) {
-  return (
-    <svg
-      width={s}
-      height={s}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={a ? 2.2 : 1.8}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M3 17l6-6 4 4 8-8" />
-      <circle cx="19" cy="7" r="2" />
-      <circle cx="9" cy="11" r="2" />
-      <circle cx="13" cy="15" r="2" />
-      <circle cx="3" cy="17" r="2" />
     </svg>
   );
 }
@@ -472,7 +400,6 @@ export default function App() {
             {page === "problem" && <ProblemPage />}
             {page === "team" && <TeamPage />}
             {page === "why" && <WhyPage />}
-            {page === "roadmap" && <RoadmapPage />}
             {page === "plan" && <PlanPage />}
             {page === "demo" && <DemoPage nav={setPage} />}
           </main>
@@ -616,14 +543,6 @@ function HomePage({ nav }) {
               c: "#7c3aed",
               bg: "#faf5ff",
               bd: "#ddd6fe",
-            },
-            {
-              id: "roadmap",
-              title: "Yo'l xaritasi",
-              desc: "Idea dan Launch gacha bosqichlar",
-              c: "#0891b2",
-              bg: "#ecfeff",
-              bd: "#a5f3fc",
             },
             {
               id: "why",
@@ -1645,7 +1564,7 @@ function DemoPage({ nav }) {
           title="Loyiha namoyishi"
           sub="Demo-video, tavsif va ishlaydigan prototip havolasi"
         />
-       
+
         <div className="demo-video-frame">
           <video controls className="demo-video" preload="metadata">
             <source src={video} type="video/mp4" />
