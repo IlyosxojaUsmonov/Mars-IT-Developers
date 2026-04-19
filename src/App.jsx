@@ -1,0 +1,2579 @@
+import { useState, useEffect } from "react";
+
+const PAGES = [
+  { id: "home", label: "Bosh sahifa", icon: HomeIcon },
+  { id: "problem", label: "Muammo & Yechim", icon: ProblemIcon },
+  { id: "team", label: "Jamoa", icon: TeamIcon },
+  { id: "why", label: "Nega biz?", icon: WhyIcon },
+  { id: "roadmap", label: "Yo'l xaritasi", icon: RoadIcon },
+  { id: "plan", label: "Amalga oshirish", icon: PlanIcon },
+  { id: "demo", label: "Demo", icon: DemoIcon },
+];
+
+const TEAM = [
+  {
+    name: "Karimov Sarvar",
+    role: "Lead Developer & Founder",
+    skills: ["React", "Node.js", "System Architecture"],
+    stack: ["TypeScript", "PostgreSQL", "Docker"],
+    accent: "#2563eb",
+    light: "#eff6ff",
+    initials: "KS",
+    desc: "Loyihaning asosiy arxitektori. Full-stack rivojlantirish va jamoani boshqarishda 4+ yil tajriba. Tizim dizayni va texnik strategiya uchun mas'ul.",
+  },
+  {
+    name: "Meliqoziyev Jo'rabek",
+    role: "Frontend Engineer",
+    skills: ["React", "UI/UX Design", "Animation"],
+    stack: ["Next.js", "TailwindCSS", "Figma"],
+    accent: "#059669",
+    light: "#ecfdf5",
+    initials: "MJ",
+    desc: "Foydalanuvchi interfeysi va tajribasini loyihalashda ixtisoslashgan. Zamonaviy responsive dizayn va murakkab animatsiyalarni amalga oshiradi.",
+  },
+  {
+    name: "Usmonov Ilyosxoja",
+    role: "Backend & AI Engineer",
+    skills: ["Python", "API Design", "AI/ML"],
+    stack: ["FastAPI", "TensorFlow", "Redis"],
+    accent: "#7c3aed",
+    light: "#f5f3ff",
+    initials: "UI",
+    desc: "Backend infratuzilmasi va AI integratsiyasi bo'yicha mutaxassis. Ma'lumotlar bazasi optimizatsiyasi va mashinaviy o'rganish modellarini quradi.",
+  },
+  {
+    name: "Muxtorov Rustambek",
+    role: "Mobile & DevOps Engineer",
+    skills: ["React Native", "CI/CD", "Cloud"],
+    stack: ["AWS", "Kubernetes", "Flutter"],
+    accent: "#d97706",
+    light: "#fffbeb",
+    initials: "MR",
+    desc: "Mobil ilovalar va bulut infratuzilmasini boshqarish bo'yicha tajribali muhandis. Deploy pipeline va monitoring tizimlarini sozlaydi.",
+  },
+];
+
+const ROADMAP = [
+  {
+    phase: "IDEA",
+    date: "Q1 2024",
+    title: "G'oya va tadqiqot",
+    status: "done",
+    items: [
+      "Bozor tahlili o'tkazildi",
+      "Muammolar aniqlashtildi",
+      "Maqsadli auditoriya belgilandi",
+      "Raqobatchilar tahlil qilindi",
+    ],
+  },
+  {
+    phase: "PROTOTYPE",
+    date: "Q2 2024",
+    title: "Prototip bosqichi",
+    status: "done",
+    items: [
+      "UI/UX dizayn yaratildi",
+      "MVP arxitekturasi loyihalandi",
+      "Texnik stack tanlandi",
+      "Dastlabki demo ko'rsatildi",
+    ],
+  },
+  {
+    phase: "MVP",
+    date: "Q3–Q4 2024",
+    title: "MVP ishlab chiqish",
+    status: "active",
+    items: [
+      "Asosiy funksiyalar qurilmoqda",
+      "Beta foydalanuvchilar jalb qilinmoqda",
+      "AI model o'qitilmoqda",
+      "Foydalanuvchi fikri yig'ilmoqda",
+    ],
+  },
+  {
+    phase: "LAUNCHED",
+    date: "Q1 2025",
+    title: "Rasmiy ishga tushirish",
+    status: "upcoming",
+    items: [
+      "App Store & Play Store",
+      "Marketing kampaniya",
+      "Muassasalar bilan shartnoma",
+      "Kengaytirish rejasi",
+    ],
+  },
+];
+
+const TECH = [
+  {
+    step: "01",
+    title: "Frontend",
+    tech: ["React / Next.js", "TypeScript", "TailwindCSS"],
+    ai: "Vercel v0 — UI generatsiya",
+    accent: "#2563eb",
+  },
+  {
+    step: "02",
+    title: "Backend & API",
+    tech: ["FastAPI (Python)", "Node.js", "GraphQL"],
+    ai: "GitHub Copilot — kod yozish",
+    accent: "#059669",
+  },
+  {
+    step: "03",
+    title: "AI / ML yadro",
+    tech: ["OpenAI GPT-4o", "LangChain", "Pinecone"],
+    ai: "Claude API — aqlli tahlil",
+    accent: "#7c3aed",
+  },
+  {
+    step: "04",
+    title: "Ma'lumotlar bazasi",
+    tech: ["PostgreSQL", "Redis (kesh)", "Supabase"],
+    ai: "AI-powered semantic qidirish",
+    accent: "#d97706",
+  },
+  {
+    step: "05",
+    title: "DevOps & Deploy",
+    tech: ["Docker", "AWS / Vercel", "GitHub Actions"],
+    ai: "Auto monitoring va scale",
+    accent: "#dc2626",
+  },
+  {
+    step: "06",
+    title: "Mobil ilova",
+    tech: ["React Native", "Expo", "Push notifications"],
+    ai: "AI chatbot integratsiya",
+    accent: "#0891b2",
+  },
+];
+
+function HomeIcon({ s = 16, a }) {
+  return (
+    <svg
+      width={s}
+      height={s}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={a ? 2.2 : 1.8}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1z" />
+      <path d="M9 21V12h6v9" />
+    </svg>
+  );
+}
+function ProblemIcon({ s = 16, a }) {
+  return (
+    <svg
+      width={s}
+      height={s}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={a ? 2.2 : 1.8}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 8v4M12 16h.01" />
+    </svg>
+  );
+}
+function TeamIcon({ s = 16, a }) {
+  return (
+    <svg
+      width={s}
+      height={s}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={a ? 2.2 : 1.8}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="9" cy="7" r="3" />
+      <circle cx="17" cy="8" r="2.5" />
+      <path d="M3 19c0-3.3 2.7-6 6-6s6 2.7 6 6" />
+      <path d="M17 11c1.7 0 4 1.2 4 4" />
+    </svg>
+  );
+}
+function WhyIcon({ s = 16, a }) {
+  return (
+    <svg
+      width={s}
+      height={s}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={a ? 2.2 : 1.8}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+    </svg>
+  );
+}
+function RoadIcon({ s = 16, a }) {
+  return (
+    <svg
+      width={s}
+      height={s}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={a ? 2.2 : 1.8}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M3 17l6-6 4 4 8-8" />
+      <circle cx="19" cy="7" r="2" />
+      <circle cx="9" cy="11" r="2" />
+      <circle cx="13" cy="15" r="2" />
+      <circle cx="3" cy="17" r="2" />
+    </svg>
+  );
+}
+function PlanIcon({ s = 16, a }) {
+  return (
+    <svg
+      width={s}
+      height={s}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={a ? 2.2 : 1.8}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect x="3" y="3" width="18" height="18" rx="2" />
+      <path d="M3 9h18M9 21V9" />
+    </svg>
+  );
+}
+function DemoIcon({ s = 16, a }) {
+  return (
+    <svg
+      width={s}
+      height={s}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={a ? 2.2 : 1.8}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <polygon points="5 3 19 12 5 21 5 3" />
+    </svg>
+  );
+}
+
+function Fade({ children }) {
+  const [v, setV] = useState(false);
+  useEffect(() => {
+    const t = requestAnimationFrame(() => setV(true));
+    return () => cancelAnimationFrame(t);
+  }, []);
+  return (
+    <div
+      style={{
+        opacity: v ? 1 : 0,
+        transform: v ? "translateY(0)" : "translateY(16px)",
+        transition: "opacity 0.3s ease, transform 0.3s ease",
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function PH({ tag, title, sub }) {
+  return (
+    <div style={{ marginBottom: 32 }}>
+      <div
+        style={{
+          display: "inline-block",
+          background: "#eff6ff",
+          color: "#2563eb",
+          borderRadius: 6,
+          padding: "4px 12px",
+          fontSize: 11,
+          fontWeight: 700,
+          letterSpacing: "1px",
+          marginBottom: 10,
+        }}
+      >
+        {tag}
+      </div>
+      <h2
+        style={{
+          fontSize: 28,
+          fontWeight: 800,
+          color: "#0f172a",
+          marginBottom: 8,
+          lineHeight: 1.2,
+        }}
+      >
+        {title}
+      </h2>
+      <p
+        style={{
+          fontSize: 14,
+          color: "#64748b",
+          maxWidth: 520,
+          lineHeight: 1.7,
+        }}
+      >
+        {sub}
+      </p>
+    </div>
+  );
+}
+
+export default function App() {
+  const [page, setPage] = useState("home");
+  const [collapsed, setCollapsed] = useState(false);
+  const W = collapsed ? 60 : 232;
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        height: "100vh",
+        overflow: "hidden",
+        fontFamily: "'Segoe UI', system-ui, sans-serif",
+        background: "#f1f5f9",
+      }}
+    >
+      <style>{`
+        *{box-sizing:border-box;margin:0;padding:0}
+        ::-webkit-scrollbar{width:4px}
+        ::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:3px}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+        @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+        .nav-btn:hover{background:rgba(255,255,255,.06)!important;color:#94a3b8!important}
+      `}</style>
+
+      {/* SIDEBAR */}
+      <aside
+        style={{
+          width: W,
+          minWidth: W,
+          background: "#0f172a",
+          display: "flex",
+          flexDirection: "column",
+          transition:
+            "width .28s cubic-bezier(.4,0,.2,1), min-width .28s cubic-bezier(.4,0,.2,1)",
+          overflow: "hidden",
+          flexShrink: 0,
+          borderRight: "1px solid rgba(255,255,255,.06)",
+        }}
+      >
+        {/* Logo */}
+        <div
+          style={{
+            padding: collapsed ? "20px 0" : "20px 16px",
+            borderBottom: "1px solid rgba(255,255,255,.07)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: collapsed ? "center" : "space-between",
+            gap: 10,
+            minHeight: 64,
+          }}
+        >
+          {!collapsed && (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 10,
+                overflow: "hidden",
+              }}
+            >
+              <div
+                style={{
+                  width: 34,
+                  height: 34,
+                  borderRadius: 9,
+                  background: "linear-gradient(135deg,#3b82f6,#8b5cf6)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "white",
+                  fontWeight: 800,
+                  fontSize: 14,
+                  flexShrink: 0,
+                }}
+              >
+                M
+              </div>
+              <div style={{ overflow: "hidden", whiteSpace: "nowrap" }}>
+                <div
+                  style={{ fontSize: 14, fontWeight: 700, color: "#f1f5f9" }}
+                >
+                  Mars IT
+                </div>
+                <div
+                  style={{
+                    fontSize: 10,
+                    color: "#475569",
+                    letterSpacing: "1.5px",
+                  }}
+                >
+                  DEVELOPERS
+                </div>
+              </div>
+            </div>
+          )}
+          {collapsed && (
+            <div
+              style={{
+                width: 34,
+                height: 34,
+                borderRadius: 9,
+                background: "linear-gradient(135deg,#3b82f6,#8b5cf6)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "white",
+                fontWeight: 800,
+                fontSize: 14,
+              }}
+            >
+              M
+            </div>
+          )}
+          {!collapsed && (
+            <button
+              onClick={() => setCollapsed(true)}
+              style={{
+                background: "none",
+                border: "1px solid rgba(255,255,255,.1)",
+                borderRadius: 7,
+                width: 28,
+                height: 28,
+                cursor: "pointer",
+                color: "#475569",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexShrink: 0,
+              }}
+            >
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+              >
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
+          )}
+        </div>
+
+        {/* Nav items */}
+        <nav
+          style={{
+            flex: 1,
+            padding: collapsed ? "10px 6px" : "10px 10px",
+            overflowY: "auto",
+            overflowX: "hidden",
+          }}
+        >
+          {!collapsed && (
+            <div
+              style={{
+                fontSize: 10,
+                color: "#334155",
+                letterSpacing: "1.5px",
+                padding: "4px 8px 8px",
+                fontWeight: 600,
+              }}
+            >
+              MENYU
+            </div>
+          )}
+          {PAGES.map((p) => {
+            const isA = page === p.id;
+            const Icon = p.icon;
+            return (
+              <button
+                key={p.id}
+                className={isA ? "" : "nav-btn"}
+                onClick={() => setPage(p.id)}
+                title={collapsed ? p.label : undefined}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: collapsed ? 0 : 10,
+                  justifyContent: collapsed ? "center" : "flex-start",
+                  width: "100%",
+                  padding: collapsed ? "10px 0" : "9px 10px",
+                  marginBottom: 2,
+                  background: isA ? "rgba(59,130,246,.14)" : "transparent",
+                  color: isA ? "#60a5fa" : "#475569",
+                  border: isA
+                    ? "1px solid rgba(59,130,246,.22)"
+                    : "1px solid transparent",
+                  borderRadius: 9,
+                  cursor: "pointer",
+                  fontSize: 13,
+                  fontWeight: isA ? 600 : 400,
+                  textAlign: "left",
+                  transition: "all .15s",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                }}
+              >
+                <span style={{ flexShrink: 0, display: "flex" }}>
+                  <Icon s={16} a={isA} />
+                </span>
+                {!collapsed && (
+                  <span
+                    style={{ overflow: "hidden", textOverflow: "ellipsis" }}
+                  >
+                    {p.label}
+                  </span>
+                )}
+                {!collapsed && isA && (
+                  <span
+                    style={{
+                      marginLeft: "auto",
+                      width: 5,
+                      height: 5,
+                      borderRadius: "50%",
+                      background: "#3b82f6",
+                      flexShrink: 0,
+                    }}
+                  />
+                )}
+              </button>
+            );
+          })}
+        </nav>
+
+        {/* Collapse button when collapsed */}
+        {collapsed && (
+          <div
+            style={{
+              padding: "10px 6px",
+              borderTop: "1px solid rgba(255,255,255,.07)",
+            }}
+          >
+            <button
+              onClick={() => setCollapsed(false)}
+              style={{
+                width: "100%",
+                background: "rgba(255,255,255,.04)",
+                border: "1px solid rgba(255,255,255,.08)",
+                borderRadius: 8,
+                padding: "8px 0",
+                cursor: "pointer",
+                color: "#475569",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+              >
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
+          </div>
+        )}
+
+        {!collapsed && (
+          <div
+            style={{
+              padding: "12px 16px",
+              borderTop: "1px solid rgba(255,255,255,.06)",
+              fontSize: 11,
+              color: "#1e293b",
+              lineHeight: 1.6,
+            }}
+          >
+            Mars IT Developers
+            <br />
+            <span style={{ color: "#0f172a" }}>Toshkent, 2024</span>
+          </div>
+        )}
+      </aside>
+
+      {/* MAIN */}
+      <div
+        style={{
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          overflow: "hidden",
+        }}
+      >
+        {/* Topbar */}
+        <header
+          style={{
+            height: 54,
+            background: "#fff",
+            borderBottom: "1px solid #e2e8f0",
+            display: "flex",
+            alignItems: "center",
+            padding: "0 28px",
+            gap: 16,
+            flexShrink: 0,
+          }}
+        >
+          <div style={{ flex: 1 }}>
+            <span style={{ fontSize: 15, fontWeight: 700, color: "#0f172a" }}>
+              {PAGES.find((p) => p.id === page)?.label}
+            </span>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                background: "#f0fdf4",
+                border: "1px solid #bbf7d0",
+                borderRadius: 20,
+                padding: "5px 12px",
+                fontSize: 12,
+                color: "#15803d",
+              }}
+            >
+              <span
+                style={{
+                  width: 5,
+                  height: 5,
+                  borderRadius: "50%",
+                  background: "#22c55e",
+                  animation: "pulse 2s infinite",
+                }}
+              />
+              Beta bosqichi
+            </div>
+            <div
+              style={{
+                width: 32,
+                height: 32,
+                borderRadius: 9,
+                background: "linear-gradient(135deg,#3b82f6,#8b5cf6)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "white",
+                fontWeight: 700,
+                fontSize: 13,
+              }}
+            >
+              M
+            </div>
+          </div>
+        </header>
+
+        {/* Page */}
+        <main style={{ flex: 1, overflowY: "auto", background: "#f8fafc" }}>
+          {page === "home" && <HomePage nav={setPage} />}
+          {page === "problem" && <ProblemPage />}
+          {page === "team" && <TeamPage />}
+          {page === "why" && <WhyPage />}
+          {page === "roadmap" && <RoadmapPage />}
+          {page === "plan" && <PlanPage />}
+          {page === "demo" && <DemoPage />}
+        </main>
+      </div>
+    </div>
+  );
+}
+
+/* ── HOME ── */
+function HomePage({ nav }) {
+  return (
+    <Fade>
+      <div
+        style={{ padding: "36px 40px 60px", maxWidth: 960, margin: "0 auto" }}
+      >
+        <div
+          style={{
+            background:
+              "linear-gradient(140deg,#0f172a 0%,#1e1b4b 55%,#0c2a4a 100%)",
+            borderRadius: 20,
+            padding: "52px 48px",
+            color: "white",
+            position: "relative",
+            overflow: "hidden",
+            marginBottom: 28,
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              opacity: 0.04,
+              backgroundImage:
+                "linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px)",
+              backgroundSize: "40px 40px",
+            }}
+          />
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 7,
+              background: "rgba(59,130,246,.18)",
+              border: "1px solid rgba(59,130,246,.3)",
+              borderRadius: 20,
+              padding: "5px 14px",
+              marginBottom: 22,
+              fontSize: 11,
+              color: "#93c5fd",
+              letterSpacing: ".5px",
+              fontWeight: 500,
+            }}
+          >
+            O'ZBEKISTON — TA'LIM TEXNOLOGIYALARI
+          </div>
+          <h1
+            style={{
+              fontSize: 42,
+              fontWeight: 800,
+              lineHeight: 1.15,
+              marginBottom: 16,
+              maxWidth: 580,
+            }}
+          >
+            Ta'lim sohasida{" "}
+            <span style={{ color: "#60a5fa" }}>sun'iy intellekt</span> inqilobi
+          </h1>
+          <p
+            style={{
+              fontSize: 15,
+              color: "rgba(255,255,255,.6)",
+              maxWidth: 500,
+              lineHeight: 1.8,
+              marginBottom: 32,
+            }}
+          >
+            EduMars — O'zbekistondagi maktablar va o'quv markazlari uchun AI
+            asosida ishlaydigan aqlli boshqaruv platformasi.
+          </p>
+          <div style={{ display: "flex", gap: 12 }}>
+            <button
+              onClick={() => nav("demo")}
+              style={{
+                background: "#3b82f6",
+                color: "white",
+                border: "none",
+                borderRadius: 10,
+                padding: "11px 26px",
+                fontSize: 13,
+                fontWeight: 600,
+                cursor: "pointer",
+                transition: "all .18s",
+              }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.background = "#2563eb")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.background = "#3b82f6")
+              }
+            >
+              Demo ko'rish
+            </button>
+            <button
+              onClick={() => nav("problem")}
+              style={{
+                background: "rgba(255,255,255,.08)",
+                color: "white",
+                border: "1px solid rgba(255,255,255,.15)",
+                borderRadius: 10,
+                padding: "11px 26px",
+                fontSize: 13,
+                cursor: "pointer",
+                transition: "all .18s",
+              }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.background = "rgba(255,255,255,.14)")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.background = "rgba(255,255,255,.08)")
+              }
+            >
+              Muammo haqida
+            </button>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              gap: 40,
+              marginTop: 40,
+              paddingTop: 32,
+              borderTop: "1px solid rgba(255,255,255,.1)",
+            }}
+          >
+            {[
+              ["9,900+", "O'zbekiston maktablari"],
+              ["~6 million", "O'quvchilar"],
+              ["4 kishi", "Jamoa a'zolari"],
+            ].map(([n, l]) => (
+              <div key={l}>
+                <div
+                  style={{ fontSize: 20, fontWeight: 800, color: "#60a5fa" }}
+                >
+                  {n}
+                </div>
+                <div
+                  style={{
+                    fontSize: 11,
+                    color: "rgba(255,255,255,.4)",
+                    marginTop: 3,
+                  }}
+                >
+                  {l}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gap: 14,
+          }}
+        >
+          {[
+            {
+              id: "problem",
+              title: "Muammo & Yechim",
+              desc: "Nima uchun bu platforma kerak",
+              c: "#dc2626",
+              bg: "#fef2f2",
+              bd: "#fecaca",
+            },
+            {
+              id: "team",
+              title: "Jamoa",
+              desc: "4 nafar ixtisoslashgan dasturchi",
+              c: "#7c3aed",
+              bg: "#faf5ff",
+              bd: "#ddd6fe",
+            },
+            {
+              id: "roadmap",
+              title: "Yo'l xaritasi",
+              desc: "Idea dan Launch gacha bosqichlar",
+              c: "#0891b2",
+              bg: "#ecfeff",
+              bd: "#a5f3fc",
+            },
+            {
+              id: "why",
+              title: "Nega biz?",
+              desc: "Raqobat afzalliklari va kuchimiz",
+              c: "#059669",
+              bg: "#f0fdf4",
+              bd: "#bbf7d0",
+            },
+            {
+              id: "plan",
+              title: "Texnologiyalar",
+              desc: "Stack, AI vositalari va rejalar",
+              c: "#d97706",
+              bg: "#fffbeb",
+              bd: "#fde68a",
+            },
+            {
+              id: "demo",
+              title: "Demo",
+              desc: "Video namoyish va prototip",
+              c: "#2563eb",
+              bg: "#eff6ff",
+              bd: "#bfdbfe",
+            },
+          ].map((c) => (
+            <button
+              key={c.id}
+              onClick={() => nav(c.id)}
+              style={{
+                background: c.bg,
+                border: `1.5px solid ${c.bd}`,
+                borderRadius: 14,
+                padding: "18px 20px",
+                cursor: "pointer",
+                textAlign: "left",
+                transition: "all .18s",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-2px)";
+                e.currentTarget.style.boxShadow = "0 8px 20px rgba(0,0,0,.08)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "none";
+              }}
+            >
+              <div
+                style={{
+                  fontSize: 13,
+                  fontWeight: 700,
+                  color: c.c,
+                  marginBottom: 5,
+                }}
+              >
+                {c.title}
+              </div>
+              <div style={{ fontSize: 12, color: "#64748b", lineHeight: 1.5 }}>
+                {c.desc}
+              </div>
+              <div
+                style={{
+                  marginTop: 10,
+                  fontSize: 11,
+                  color: c.c,
+                  fontWeight: 500,
+                }}
+              >
+                Ko'rish →
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+    </Fade>
+  );
+}
+
+/* ── PROBLEM ── */
+function ProblemPage() {
+  return (
+    <Fade>
+      <div
+        style={{ padding: "36px 40px 60px", maxWidth: 960, margin: "0 auto" }}
+      >
+        <PH
+          tag="01 — Muammo & Yechim"
+          title="Qanday muammoni hal qilayapmiz?"
+          sub="O'zbekistondagi ta'lim muassasalari boshqaruvida mavjud bo'shliqlar"
+        />
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: 22,
+            marginBottom: 28,
+          }}
+        >
+          <div
+            style={{
+              background: "#fff",
+              border: "1.5px solid #fecaca",
+              borderRadius: 16,
+              padding: 28,
+            }}
+          >
+            <div
+              style={{
+                display: "inline-block",
+                background: "#fef2f2",
+                color: "#dc2626",
+                borderRadius: 6,
+                padding: "3px 10px",
+                fontSize: 10,
+                fontWeight: 700,
+                letterSpacing: "1px",
+                marginBottom: 16,
+              }}
+            >
+              MUAMMO
+            </div>
+            <h3
+              style={{
+                fontSize: 17,
+                fontWeight: 700,
+                color: "#7f1d1d",
+                marginBottom: 16,
+                lineHeight: 1.4,
+              }}
+            >
+              Ta'lim muassasalari hali ham qog'oz va excel'da
+            </h3>
+            {[
+              "Davomat va baholarni qo'lda yuritish — xato va vaqt yo'qotish",
+              "O'qituvchilar admin ishlar bilan haddan tashqari band",
+              "Ota-onalar bolalari haqida real-time ma'lumot ololmaydi",
+              "Tahliliy hisobotlar yo'q — ko'r-ko'rona qaror qabul qilish",
+              "Turli tizimlar: Excel, Telegram, qog'oz — hamohanglik yo'q",
+            ].map((p, i) => (
+              <div
+                key={i}
+                style={{
+                  display: "flex",
+                  gap: 9,
+                  marginBottom: 9,
+                  alignItems: "flex-start",
+                }}
+              >
+                <div
+                  style={{
+                    width: 15,
+                    height: 15,
+                    borderRadius: "50%",
+                    background: "#fecaca",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexShrink: 0,
+                    marginTop: 2,
+                  }}
+                >
+                  <svg width="7" height="7" viewBox="0 0 12 12" fill="none">
+                    <path
+                      d="M2 2l8 8M10 2l-8 8"
+                      stroke="#dc2626"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                </div>
+                <span
+                  style={{ fontSize: 13, color: "#64748b", lineHeight: 1.6 }}
+                >
+                  {p}
+                </span>
+              </div>
+            ))}
+          </div>
+          <div
+            style={{
+              background: "#fff",
+              border: "1.5px solid #bbf7d0",
+              borderRadius: 16,
+              padding: 28,
+            }}
+          >
+            <div
+              style={{
+                display: "inline-block",
+                background: "#f0fdf4",
+                color: "#15803d",
+                borderRadius: 6,
+                padding: "3px 10px",
+                fontSize: 10,
+                fontWeight: 700,
+                letterSpacing: "1px",
+                marginBottom: 16,
+              }}
+            >
+              YECHIM
+            </div>
+            <h3
+              style={{
+                fontSize: 17,
+                fontWeight: 700,
+                color: "#14532d",
+                marginBottom: 16,
+                lineHeight: 1.4,
+              }}
+            >
+              EduMars — AI asosidagi yagona boshqaruv platformasi
+            </h3>
+            {[
+              "AI avtomatik davomat, baho va reyting tizimi sozlanadi",
+              "O'qituvchilar faqat o'qitishga e'tibor beradi — AI boshqaradi",
+              "Ota-onalar ilovada real-time bildirishnomalar oladi",
+              "AI tahlil: yillik ma'lumotlar asosida bashorat va tavsiyalar",
+              "Yagona platforma: davomat, baholar, to'lovlar, aloqa",
+            ].map((p, i) => (
+              <div
+                key={i}
+                style={{
+                  display: "flex",
+                  gap: 9,
+                  marginBottom: 9,
+                  alignItems: "flex-start",
+                }}
+              >
+                <div
+                  style={{
+                    width: 15,
+                    height: 15,
+                    borderRadius: "50%",
+                    background: "#bbf7d0",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexShrink: 0,
+                    marginTop: 2,
+                  }}
+                >
+                  <svg width="7" height="7" viewBox="0 0 12 12" fill="none">
+                    <path
+                      d="M2 6l3 3 5-5"
+                      stroke="#15803d"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
+                <span
+                  style={{ fontSize: 13, color: "#475569", lineHeight: 1.6 }}
+                >
+                  {p}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(4, 1fr)",
+            gap: 14,
+          }}
+        >
+          {[
+            { n: "9,900+", l: "Maktablar", c: "#2563eb", bg: "#eff6ff" },
+            { n: "~6M", l: "O'quvchilar", c: "#7c3aed", bg: "#faf5ff" },
+            { n: "72%", l: "Raqamlanmagan", c: "#dc2626", bg: "#fef2f2" },
+            {
+              n: "$2.4B",
+              l: "EdTech bozori 2026",
+              c: "#059669",
+              bg: "#f0fdf4",
+            },
+          ].map(({ n, l, c, bg }) => (
+            <div
+              key={l}
+              style={{
+                background: bg,
+                borderRadius: 12,
+                padding: "20px 16px",
+                textAlign: "center",
+              }}
+            >
+              <div style={{ fontSize: 26, fontWeight: 800, color: c }}>{n}</div>
+              <div style={{ fontSize: 11, color: "#64748b", marginTop: 4 }}>
+                {l}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div
+          style={{
+            background: "#0f172a",
+            borderRadius: 14,
+            padding: "26px 28px",
+            marginTop: 22,
+            color: "white",
+          }}
+        >
+          <h3
+            style={{
+              fontSize: 14,
+              fontWeight: 700,
+              color: "#60a5fa",
+              marginBottom: 10,
+            }}
+          >
+            Nima uchun aynan hozir?
+          </h3>
+          <p
+            style={{
+              fontSize: 13,
+              color: "rgba(255,255,255,.6)",
+              lineHeight: 1.8,
+              maxWidth: 660,
+            }}
+          >
+            O'zbekistonda raqamlashtirish strategiyasi 2030 dasturi doirasida
+            ta'lim sektori prioritet hisoblanadi. Hukumat ta'lim IT
+            startaplarini qo'llab-quvvatlaydi. Bozorga birinchi katta platforma
+            sifatida kirib, erta foydalanuvchi bazasini shakllantirish imkonimiz
+            bor.
+          </p>
+        </div>
+      </div>
+    </Fade>
+  );
+}
+
+/* ── TEAM ── */
+function TeamPage() {
+  const [open, setOpen] = useState(null);
+  return (
+    <Fade>
+      <div
+        style={{ padding: "36px 40px 60px", maxWidth: 960, margin: "0 auto" }}
+      >
+        <PH
+          tag="02 — Jamoa"
+          title="Mars IT Developers"
+          sub="To'rt nafar ixtisoslashgan muhandis birgalikda ishlayapti"
+        />
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: 18,
+            marginBottom: 28,
+          }}
+        >
+          {TEAM.map((m, i) => (
+            <div
+              key={i}
+              style={{
+                background: "#fff",
+                borderRadius: 16,
+                overflow: "hidden",
+                border: `1.5px solid ${open === i ? m.accent + "44" : "#e2e8f0"}`,
+                transition: "all .22s",
+                boxShadow: open === i ? `0 8px 28px ${m.accent}14` : "none",
+              }}
+            >
+              <div style={{ padding: "22px 22px 18px" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    gap: 13,
+                    alignItems: "center",
+                    marginBottom: 14,
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 50,
+                      height: 50,
+                      borderRadius: 13,
+                      background: m.light,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: 15,
+                      fontWeight: 800,
+                      color: m.accent,
+                      border: `2px solid ${m.accent}22`,
+                      flexShrink: 0,
+                    }}
+                  >
+                    {m.initials}
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <div
+                      style={{
+                        fontWeight: 700,
+                        fontSize: 14,
+                        color: "#0f172a",
+                      }}
+                    >
+                      {m.name}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: 12,
+                        color: m.accent,
+                        fontWeight: 500,
+                        marginTop: 2,
+                      }}
+                    >
+                      {m.role}
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setOpen(open === i ? null : i)}
+                    style={{
+                      width: 28,
+                      height: 28,
+                      borderRadius: 8,
+                      background: m.light,
+                      border: "none",
+                      cursor: "pointer",
+                      color: m.accent,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <svg
+                      width="11"
+                      height="11"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      style={{
+                        transform: open === i ? "rotate(180deg)" : "rotate(0)",
+                        transition: "transform .22s",
+                      }}
+                    >
+                      <path d="M6 9l6 6 6-6" />
+                    </svg>
+                  </button>
+                </div>
+                <p
+                  style={{
+                    fontSize: 13,
+                    color: "#64748b",
+                    lineHeight: 1.7,
+                    marginBottom: 12,
+                  }}
+                >
+                  {m.desc}
+                </p>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 5 }}>
+                  {m.skills.map((s) => (
+                    <span
+                      key={s}
+                      style={{
+                        background: m.light,
+                        color: m.accent,
+                        borderRadius: 5,
+                        padding: "3px 9px",
+                        fontSize: 11,
+                        fontWeight: 600,
+                      }}
+                    >
+                      {s}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              {open === i && (
+                <div
+                  style={{
+                    borderTop: `1px solid ${m.accent}22`,
+                    padding: "16px 22px",
+                    background: m.light,
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: 10,
+                      color: m.accent,
+                      letterSpacing: "1.5px",
+                      fontWeight: 700,
+                      marginBottom: 9,
+                    }}
+                  >
+                    TEXNOLOGIYALAR STAKI
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      gap: 5,
+                      marginBottom: 14,
+                    }}
+                  >
+                    {m.stack.map((t) => (
+                      <span
+                        key={t}
+                        style={{
+                          background: "white",
+                          color: "#475569",
+                          borderRadius: 5,
+                          padding: "3px 10px",
+                          fontSize: 11,
+                          border: "1px solid #e2e8f0",
+                        }}
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                  <div style={{ display: "flex", gap: 8 }}>
+                    <a
+                      href="#"
+                      style={{
+                        flex: 1,
+                        textAlign: "center",
+                        background: "#0f172a",
+                        color: "white",
+                        borderRadius: 7,
+                        padding: "8px",
+                        fontSize: 12,
+                        textDecoration: "none",
+                        fontWeight: 500,
+                      }}
+                    >
+                      GitHub
+                    </a>
+                    <a
+                      href="#"
+                      style={{
+                        flex: 1,
+                        textAlign: "center",
+                        background: "#0077b5",
+                        color: "white",
+                        borderRadius: 7,
+                        padding: "8px",
+                        fontSize: 12,
+                        textDecoration: "none",
+                        fontWeight: 500,
+                      }}
+                    >
+                      LinkedIn
+                    </a>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+        <div
+          style={{
+            background: "linear-gradient(135deg,#0f172a,#1e1b4b)",
+            borderRadius: 16,
+            padding: "26px 30px",
+            color: "white",
+            display: "flex",
+            alignItems: "center",
+            gap: 32,
+            flexWrap: "wrap",
+          }}
+        >
+          <div style={{ flex: 1, minWidth: 200 }}>
+            <div
+              style={{
+                fontSize: 10,
+                color: "#60a5fa",
+                letterSpacing: "1.5px",
+                fontWeight: 700,
+                marginBottom: 8,
+              }}
+            >
+              JAMOA HAQIDA
+            </div>
+            <p
+              style={{
+                fontSize: 13,
+                color: "rgba(255,255,255,.6)",
+                lineHeight: 1.75,
+              }}
+            >
+              2024-yilda Toshkentda tashkil topgan startap. Maqsadimiz —
+              O'zbekistondagi ta'lim muassasalarini raqamlashtirish va AI
+              yordamida samaradorlikni oshirish.
+            </p>
+          </div>
+          <div style={{ display: "flex", gap: 28 }}>
+            {[
+              ["4", "Jamoa a'zosi"],
+              ["2024", "Tashkil yili"],
+              ["MVP", "Hozirgi bosqich"],
+            ].map(([n, l]) => (
+              <div key={l} style={{ textAlign: "center" }}>
+                <div
+                  style={{ fontSize: 24, fontWeight: 800, color: "#60a5fa" }}
+                >
+                  {n}
+                </div>
+                <div
+                  style={{
+                    fontSize: 10,
+                    color: "rgba(255,255,255,.35)",
+                    marginTop: 3,
+                  }}
+                >
+                  {l}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </Fade>
+  );
+}
+
+/* ── WHY ── */
+function WhyPage() {
+  return (
+    <Fade>
+      <div
+        style={{ padding: "36px 40px 60px", maxWidth: 960, margin: "0 auto" }}
+      >
+        <PH
+          tag="03 — Nega biz?"
+          title="Jamoamizning afzalliklari"
+          sub="Bu muammoni aynan biz hal qila olishimizning sabablari"
+        />
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gap: 16,
+            marginBottom: 28,
+          }}
+        >
+          {[
+            {
+              title: "Mahalliy kontekst",
+              text: "Jamoa a'zolari O'zbekiston ta'lim tizimini ichidan biladi. Muammolarni shaxsan boshdan kechirganmiz.",
+              accent: "#2563eb",
+              bg: "#eff6ff",
+              bd: "#bfdbfe",
+            },
+            {
+              title: "Tez harakat",
+              text: "Kichik agile jamoa sifatida biz katta korporatsiyalardan ancha tez harakat qilish va yangilash imkoniga egamiz.",
+              accent: "#7c3aed",
+              bg: "#faf5ff",
+              bd: "#ddd6fe",
+            },
+            {
+              title: "AI ixtisoslashuvi",
+              text: "OpenAI, LangChain, Claude API va mahalliy modellar bilan ishlash tajribasi. GPT-4o va o'zbek tili uchun fine-tuning.",
+              accent: "#059669",
+              bg: "#f0fdf4",
+              bd: "#bbf7d0",
+            },
+            {
+              title: "Full-stack qobiliyat",
+              text: "Frontend, backend, mobile va devops — jamoa ichida barcha texnik kompetensiyalar mavjud.",
+              accent: "#d97706",
+              bg: "#fffbeb",
+              bd: "#fde68a",
+            },
+            {
+              title: "Chuqur tushunish",
+              text: "Faqat texnologiya emas — ta'lim metodikasi, qonunchilik va maktab ichki jarayonlarini bilamiz.",
+              accent: "#dc2626",
+              bg: "#fef2f2",
+              bd: "#fecaca",
+            },
+            {
+              title: "Kengayish rejasi",
+              text: "O'zbekistondan boshlagan holda, Markaziy Osiyo mamlakatlarini egallash aniq strategiyasi bor.",
+              accent: "#0891b2",
+              bg: "#ecfeff",
+              bd: "#a5f3fc",
+            },
+          ].map((c, i) => (
+            <div
+              key={i}
+              style={{
+                background: c.bg,
+                border: `1.5px solid ${c.bd}`,
+                borderRadius: 14,
+                padding: "20px 18px",
+                transition: "all .18s",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-3px)";
+                e.currentTarget.style.boxShadow = `0 10px 24px ${c.accent}16`;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "none";
+              }}
+            >
+              <div
+                style={{
+                  width: 8,
+                  height: 8,
+                  borderRadius: "50%",
+                  background: c.accent,
+                  marginBottom: 12,
+                }}
+              />
+              <h4
+                style={{
+                  fontSize: 13,
+                  fontWeight: 700,
+                  color: c.accent,
+                  marginBottom: 7,
+                }}
+              >
+                {c.title}
+              </h4>
+              <p style={{ fontSize: 12, color: "#475569", lineHeight: 1.7 }}>
+                {c.text}
+              </p>
+            </div>
+          ))}
+        </div>
+        <div
+          style={{
+            background: "#fff",
+            borderRadius: 14,
+            border: "1px solid #e2e8f0",
+            overflow: "hidden",
+          }}
+        >
+          <div
+            style={{ padding: "18px 22px", borderBottom: "1px solid #f1f5f9" }}
+          >
+            <h3 style={{ fontSize: 14, fontWeight: 700, color: "#0f172a" }}>
+              Raqobatchilar bilan taqqoslash
+            </h3>
+          </div>
+          <table
+            style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}
+          >
+            <thead>
+              <tr style={{ background: "#f8fafc" }}>
+                {["Xususiyat", "EduMars", "Raqobatchi A", "Raqobatchi B"].map(
+                  (h, i) => (
+                    <th
+                      key={i}
+                      style={{
+                        padding: "10px 20px",
+                        textAlign: i === 0 ? "left" : "center",
+                        fontWeight: 600,
+                        color: i === 1 ? "#2563eb" : "#64748b",
+                        borderBottom: "1px solid #e2e8f0",
+                        fontSize: 11,
+                      }}
+                    >
+                      {h}
+                    </th>
+                  ),
+                )}
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                ["O'zbek tili", "To'liq", "Qisman", "Yo'q"],
+                ["AI tahlil", "Mavjud", "Yo'q", "Yo'q"],
+                ["Mobil ilova", "iOS & Android", "Faqat web", "iOS"],
+                ["Narxi", "Arzon", "O'rta", "Qimmat"],
+                ["Mahalliy qo'llab-quvvatlash", "7/24", "Yo'q", "Cheklangan"],
+              ].map((row, ri) => (
+                <tr key={ri} style={{ borderBottom: "1px solid #f1f5f9" }}>
+                  {row.map((cell, ci) => (
+                    <td
+                      key={ci}
+                      style={{
+                        padding: "10px 20px",
+                        textAlign: ci === 0 ? "left" : "center",
+                        color:
+                          ci === 1
+                            ? "#059669"
+                            : ci === 0
+                              ? "#374151"
+                              : "#94a3b8",
+                        fontWeight: ci === 1 ? 600 : 400,
+                      }}
+                    >
+                      {cell}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </Fade>
+  );
+}
+
+/* ── ROADMAP ── */
+function RoadmapPage() {
+  const [active, setActive] = useState(2);
+  const r = ROADMAP[active];
+  return (
+    <Fade>
+      <div
+        style={{ padding: "36px 40px 60px", maxWidth: 960, margin: "0 auto" }}
+      >
+        <PH
+          tag="04 — Yo'l xaritasi"
+          title="Rivojlanish bosqichlari"
+          sub="Idea dan Launched gacha — har bir bosqich rejasi"
+        />
+        <div
+          style={{
+            display: "flex",
+            marginBottom: 28,
+            borderRadius: 12,
+            overflow: "hidden",
+            border: "1px solid #e2e8f0",
+          }}
+        >
+          {ROADMAP.map((item, i) => (
+            <button
+              key={i}
+              onClick={() => setActive(i)}
+              style={{
+                flex: 1,
+                padding: "14px 10px",
+                background:
+                  active === i
+                    ? item.status === "done"
+                      ? "#f0fdf4"
+                      : item.status === "active"
+                        ? "#eff6ff"
+                        : "#f8fafc"
+                    : "white",
+                border: "none",
+                borderRight: i < 3 ? "1px solid #e2e8f0" : "none",
+                cursor: "pointer",
+                transition: "all .15s",
+              }}
+            >
+              <div
+                style={{
+                  fontSize: 9,
+                  fontWeight: 700,
+                  letterSpacing: "1.5px",
+                  color:
+                    item.status === "done"
+                      ? "#15803d"
+                      : item.status === "active"
+                        ? "#2563eb"
+                        : "#94a3b8",
+                  marginBottom: 4,
+                }}
+              >
+                {item.status === "done"
+                  ? "BAJARILDI"
+                  : item.status === "active"
+                    ? "JARAYONDA"
+                    : "REJALASHTIRILGAN"}
+              </div>
+              <div
+                style={{
+                  fontSize: 13,
+                  fontWeight: 700,
+                  color: active === i ? "#0f172a" : "#64748b",
+                }}
+              >
+                {item.phase}
+              </div>
+              <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>
+                {item.date}
+              </div>
+            </button>
+          ))}
+        </div>
+        <div
+          style={{
+            background: "#fff",
+            borderRadius: 16,
+            border: "1px solid #e2e8f0",
+            overflow: "hidden",
+            marginBottom: 22,
+          }}
+        >
+          <div
+            style={{
+              padding: "22px 26px",
+              background:
+                r.status === "done"
+                  ? "#f0fdf4"
+                  : r.status === "active"
+                    ? "#eff6ff"
+                    : "#f8fafc",
+              borderBottom: "1px solid #e2e8f0",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <div>
+              <div
+                style={{
+                  fontSize: 10,
+                  fontWeight: 700,
+                  letterSpacing: "1.5px",
+                  color:
+                    r.status === "done"
+                      ? "#15803d"
+                      : r.status === "active"
+                        ? "#2563eb"
+                        : "#64748b",
+                }}
+              >
+                {r.date} — {r.phase}
+              </div>
+              <h3
+                style={{
+                  fontSize: 18,
+                  fontWeight: 700,
+                  color: "#0f172a",
+                  marginTop: 4,
+                }}
+              >
+                {r.title}
+              </h3>
+            </div>
+            <div
+              style={{
+                padding: "5px 14px",
+                borderRadius: 20,
+                fontSize: 11,
+                fontWeight: 600,
+                background:
+                  r.status === "done"
+                    ? "#dcfce7"
+                    : r.status === "active"
+                      ? "#dbeafe"
+                      : "#f1f5f9",
+                color:
+                  r.status === "done"
+                    ? "#15803d"
+                    : r.status === "active"
+                      ? "#2563eb"
+                      : "#64748b",
+              }}
+            >
+              {r.status === "done"
+                ? "Bajarildi"
+                : r.status === "active"
+                  ? "Jarayonda"
+                  : "Rejalashtirilgan"}
+            </div>
+          </div>
+          <div
+            style={{
+              padding: "22px 26px",
+              display: "grid",
+              gridTemplateColumns: "repeat(2, 1fr)",
+              gap: 10,
+            }}
+          >
+            {r.items.map((item, i) => (
+              <div
+                key={i}
+                style={{ display: "flex", gap: 9, alignItems: "flex-start" }}
+              >
+                <div
+                  style={{
+                    width: 16,
+                    height: 16,
+                    borderRadius: "50%",
+                    background:
+                      r.status === "done"
+                        ? "#dcfce7"
+                        : r.status === "active"
+                          ? "#dbeafe"
+                          : "#f1f5f9",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexShrink: 0,
+                    marginTop: 1,
+                  }}
+                >
+                  {r.status === "done" ? (
+                    <svg width="7" height="7" viewBox="0 0 12 12" fill="none">
+                      <path
+                        d="M2 6l3 3 5-5"
+                        stroke="#15803d"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  ) : r.status === "active" ? (
+                    <div
+                      style={{
+                        width: 4,
+                        height: 4,
+                        borderRadius: "50%",
+                        background: "#2563eb",
+                      }}
+                    />
+                  ) : (
+                    <div
+                      style={{
+                        width: 4,
+                        height: 4,
+                        borderRadius: "50%",
+                        background: "#cbd5e1",
+                      }}
+                    />
+                  )}
+                </div>
+                <span
+                  style={{ fontSize: 13, color: "#475569", lineHeight: 1.6 }}
+                >
+                  {item}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div
+          style={{
+            background: "#fff",
+            borderRadius: 12,
+            padding: "20px 22px",
+            border: "1px solid #e2e8f0",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginBottom: 8,
+              fontSize: 13,
+            }}
+          >
+            <span style={{ fontWeight: 600, color: "#0f172a" }}>
+              Umumiy progress
+            </span>
+            <span style={{ color: "#2563eb", fontWeight: 600 }}>55%</span>
+          </div>
+          <div
+            style={{
+              height: 7,
+              background: "#f1f5f9",
+              borderRadius: 4,
+              overflow: "hidden",
+            }}
+          >
+            <div
+              style={{
+                height: "100%",
+                width: "55%",
+                borderRadius: 4,
+                background: "linear-gradient(90deg,#3b82f6,#8b5cf6)",
+              }}
+            />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              marginTop: 7,
+              fontSize: 11,
+              color: "#94a3b8",
+            }}
+          >
+            <span>Boshlandi — Q1 2024</span>
+            <span>Maqsad — Q1 2025</span>
+          </div>
+        </div>
+      </div>
+    </Fade>
+  );
+}
+
+/* ── PLAN ── */
+function PlanPage() {
+  return (
+    <Fade>
+      <div
+        style={{ padding: "36px 40px 60px", maxWidth: 960, margin: "0 auto" }}
+      >
+        <PH
+          tag="05 — Amalga oshirish"
+          title="Texnologiyalar va rejalar"
+          sub="Bosqichlar, texnologiyalar staki va AI vositalari"
+        />
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gap: 14,
+            marginBottom: 26,
+          }}
+        >
+          {TECH.map((s, i) => (
+            <div
+              key={i}
+              style={{
+                background: "#fff",
+                border: "1.5px solid #e2e8f0",
+                borderRadius: 14,
+                padding: "20px 18px",
+                transition: "all .18s",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = s.accent + "55";
+                e.currentTarget.style.transform = "translateY(-2px)";
+                e.currentTarget.style.boxShadow = `0 8px 20px ${s.accent}12`;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "#e2e8f0";
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "none";
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 9,
+                  marginBottom: 12,
+                }}
+              >
+                <div
+                  style={{
+                    width: 30,
+                    height: 30,
+                    borderRadius: 8,
+                    background: s.accent + "14",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: 11,
+                    fontWeight: 800,
+                    color: s.accent,
+                  }}
+                >
+                  {s.step}
+                </div>
+                <h4 style={{ fontSize: 13, fontWeight: 700, color: "#0f172a" }}>
+                  {s.title}
+                </h4>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: 4,
+                  marginBottom: 12,
+                }}
+              >
+                {s.tech.map((t) => (
+                  <span
+                    key={t}
+                    style={{
+                      background: "#f8fafc",
+                      color: "#475569",
+                      borderRadius: 5,
+                      padding: "3px 8px",
+                      fontSize: 11,
+                      border: "1px solid #e2e8f0",
+                    }}
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+              <div
+                style={{
+                  background: s.accent + "0e",
+                  borderRadius: 7,
+                  padding: "7px 10px",
+                  fontSize: 11,
+                  color: s.accent,
+                  fontWeight: 500,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 5,
+                }}
+              >
+                <div
+                  style={{
+                    width: 5,
+                    height: 5,
+                    borderRadius: "50%",
+                    background: s.accent,
+                    animation: "pulse 2s infinite",
+                  }}
+                />
+                {s.ai}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div
+          style={{
+            background: "#0f172a",
+            borderRadius: 14,
+            padding: "24px 28px",
+            marginBottom: 18,
+          }}
+        >
+          <h3
+            style={{
+              fontSize: 14,
+              fontWeight: 700,
+              color: "#60a5fa",
+              marginBottom: 18,
+            }}
+          >
+            Tizim arxitekturasi
+          </h3>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              flexWrap: "wrap",
+            }}
+          >
+            {[
+              { label: "Mobil / Web", c: "#60a5fa" },
+              null,
+              { label: "API Gateway", c: "#a78bfa" },
+              null,
+              { label: "AI Engine", c: "#f472b6" },
+              null,
+              { label: "Database", c: "#34d399" },
+            ].map((item, i) =>
+              item === null ? (
+                <svg
+                  key={i}
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#334155"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                >
+                  <path d="M5 12h14M14 6l6 6-6 6" />
+                </svg>
+              ) : (
+                <div
+                  key={i}
+                  style={{
+                    background: "rgba(255,255,255,.05)",
+                    borderRadius: 9,
+                    padding: "10px 18px",
+                    border: `1px solid ${item.c}33`,
+                    flex: 1,
+                    minWidth: 90,
+                    textAlign: "center",
+                  }}
+                >
+                  <div style={{ fontSize: 11, color: item.c, fontWeight: 600 }}>
+                    {item.label}
+                  </div>
+                </div>
+              ),
+            )}
+          </div>
+        </div>
+        <div
+          style={{
+            background: "#fff",
+            borderRadius: 12,
+            border: "1px solid #e2e8f0",
+            overflow: "hidden",
+          }}
+        >
+          <div
+            style={{ padding: "16px 22px", borderBottom: "1px solid #f1f5f9" }}
+          >
+            <h3 style={{ fontSize: 13, fontWeight: 700, color: "#0f172a" }}>
+              Ishlab chiqish jadvali
+            </h3>
+          </div>
+          <div style={{ padding: "16px 22px" }}>
+            {[
+              {
+                period: "1–2 oy",
+                task: "Asosiy backend va auth tizimi",
+                pct: 80,
+                c: "#2563eb",
+              },
+              {
+                period: "2–3 oy",
+                task: "Frontend dashboard va mobil ilova",
+                pct: 60,
+                c: "#7c3aed",
+              },
+              {
+                period: "3–4 oy",
+                task: "AI tahlil moduli integratsiya",
+                pct: 40,
+                c: "#059669",
+              },
+              {
+                period: "4–5 oy",
+                task: "Beta test va optimallashtirish",
+                pct: 20,
+                c: "#d97706",
+              },
+              {
+                period: "6+ oy",
+                task: "Rasmiy launch va marketing",
+                pct: 5,
+                c: "#dc2626",
+              },
+            ].map((item, i) => (
+              <div key={i} style={{ marginBottom: 13 }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginBottom: 4,
+                    fontSize: 12,
+                  }}
+                >
+                  <span style={{ color: "#475569" }}>
+                    <b style={{ color: "#0f172a" }}>{item.period}:</b>{" "}
+                    {item.task}
+                  </span>
+                  <span style={{ color: item.c, fontWeight: 600 }}>
+                    {item.pct}%
+                  </span>
+                </div>
+                <div
+                  style={{
+                    height: 5,
+                    background: "#f1f5f9",
+                    borderRadius: 3,
+                    overflow: "hidden",
+                  }}
+                >
+                  <div
+                    style={{
+                      height: "100%",
+                      width: `${item.pct}%`,
+                      background: item.c,
+                      borderRadius: 3,
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </Fade>
+  );
+}
+
+/* ── DEMO ── */
+function DemoPage() {
+  return (
+    <Fade>
+      <div
+        style={{ padding: "36px 40px 60px", maxWidth: 960, margin: "0 auto" }}
+      >
+        <PH
+          tag="06 — Demo"
+          title="Loyiha namoyishi"
+          sub="Demo-video, tavsif va ishlaydigan prototip havolasi"
+        />
+        <div
+          style={{
+            background: "#0f172a",
+            borderRadius: 18,
+            overflow: "hidden",
+            position: "relative",
+            marginBottom: 26,
+            border: "1px solid rgba(255,255,255,.08)",
+            aspectRatio: "16/9",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              backgroundImage:
+                "radial-gradient(ellipse at 30% 50%,rgba(59,130,246,.12) 0%,transparent 60%),radial-gradient(ellipse at 70% 50%,rgba(139,92,246,.12) 0%,transparent 60%)",
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              opacity: 0.03,
+              backgroundImage:
+                "linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px)",
+              backgroundSize: "50px 50px",
+            }}
+          />
+          <div style={{ textAlign: "center", position: "relative", zIndex: 2 }}>
+            <div
+              style={{
+                width: 68,
+                height: 68,
+                borderRadius: "50%",
+                background: "rgba(59,130,246,.18)",
+                border: "2px solid rgba(59,130,246,.4)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                margin: "0 auto 14px",
+                cursor: "pointer",
+                transition: "all .2s",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "rgba(59,130,246,.28)";
+                e.currentTarget.style.transform = "scale(1.06)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "rgba(59,130,246,.18)";
+                e.currentTarget.style.transform = "scale(1)";
+              }}
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="#60a5fa">
+                <polygon points="5 3 19 12 5 21 5 3" />
+              </svg>
+            </div>
+            <div style={{ color: "rgba(255,255,255,.45)", fontSize: 12 }}>
+              EduMars — Demo video
+            </div>
+            <div
+              style={{
+                color: "rgba(255,255,255,.25)",
+                fontSize: 11,
+                marginTop: 3,
+              }}
+            >
+              3 daqiqa 42 soniya
+            </div>
+          </div>
+          <div
+            style={{
+              position: "absolute",
+              top: 14,
+              left: 14,
+              background: "rgba(220,38,38,.82)",
+              borderRadius: 5,
+              padding: "4px 10px",
+              fontSize: 10,
+              fontWeight: 700,
+              color: "white",
+              display: "flex",
+              alignItems: "center",
+              gap: 5,
+            }}
+          >
+            <span
+              style={{
+                width: 5,
+                height: 5,
+                borderRadius: "50%",
+                background: "white",
+                animation: "pulse 1.5s infinite",
+              }}
+            />
+            DEMO
+          </div>
+        </div>
+        <div
+          style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 22 }}
+        >
+          <div
+            style={{
+              background: "#fff",
+              borderRadius: 16,
+              border: "1px solid #e2e8f0",
+              overflow: "hidden",
+            }}
+          >
+            <div
+              style={{
+                padding: "18px 22px",
+                borderBottom: "1px solid #f1f5f9",
+              }}
+            >
+              <h3 style={{ fontSize: 14, fontWeight: 700, color: "#0f172a" }}>
+                Demo-video tavsifi
+              </h3>
+            </div>
+            <div style={{ padding: "18px 22px" }}>
+              <p
+                style={{
+                  fontSize: 13,
+                  color: "#64748b",
+                  lineHeight: 1.75,
+                  marginBottom: 16,
+                }}
+              >
+                Ushbu demo-videoda EduMars platformasining asosiy funksiyalari
+                ko'rsatilgan. Platforma o'qituvchi, ota-ona va admin nuqtai
+                nazaridan namoyish etiladi.
+              </p>
+              {[
+                ["0:00–0:45", "Kirish va platforma tanishuvi", "#2563eb"],
+                [
+                  "0:45–1:30",
+                  "O'qituvchi paneli — davomat va baholar",
+                  "#7c3aed",
+                ],
+                ["1:30–2:15", "AI tahlil va bashorat funksiyasi", "#059669"],
+                ["2:15–3:00", "Ota-ona mobil ilovasi demo", "#d97706"],
+                ["3:00–3:42", "Admin panel va hisobotlar", "#dc2626"],
+              ].map(([time, desc, c]) => (
+                <div
+                  key={time}
+                  style={{
+                    display: "flex",
+                    gap: 9,
+                    marginBottom: 9,
+                    alignItems: "center",
+                  }}
+                >
+                  <span
+                    style={{
+                      background: c + "14",
+                      color: c,
+                      borderRadius: 5,
+                      padding: "2px 7px",
+                      fontSize: 10,
+                      fontWeight: 700,
+                      flexShrink: 0,
+                    }}
+                  >
+                    {time}
+                  </span>
+                  <span style={{ fontSize: 12, color: "#475569" }}>{desc}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            {[
+              {
+                label: "Demo video (YouTube)",
+                sub: "youtube.com/mars-it-edu",
+                c: "#dc2626",
+                bg: "#fef2f2",
+                bd: "#fecaca",
+              },
+              {
+                label: "Ishlaydigan prototip",
+                sub: "edumars.vercel.app (beta)",
+                c: "#059669",
+                bg: "#f0fdf4",
+                bd: "#bbf7d0",
+              },
+              {
+                label: "GitHub Repository",
+                sub: "github.com/mars-it-developers",
+                c: "#0f172a",
+                bg: "#f8fafc",
+                bd: "#e2e8f0",
+              },
+              {
+                label: "Figma Dizayn",
+                sub: "figma.com/mars-it-edumars",
+                c: "#7c3aed",
+                bg: "#faf5ff",
+                bd: "#ddd6fe",
+              },
+            ].map((link) => (
+              <a
+                key={link.label}
+                href="#"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 12,
+                  background: link.bg,
+                  border: `1.5px solid ${link.bd}`,
+                  borderRadius: 11,
+                  padding: "14px 16px",
+                  textDecoration: "none",
+                  transition: "all .18s",
+                  color: "inherit",
+                }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.transform = "translateX(3px)")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.transform = "translateX(0)")
+                }
+              >
+                <div
+                  style={{
+                    width: 7,
+                    height: 7,
+                    borderRadius: "50%",
+                    background: link.c,
+                    flexShrink: 0,
+                  }}
+                />
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: link.c }}>
+                    {link.label}
+                  </div>
+                  <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>
+                    {link.sub}
+                  </div>
+                </div>
+                <svg
+                  width="13"
+                  height="13"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#94a3b8"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                >
+                  <path d="M5 12h14M14 6l6 6-6 6" />
+                </svg>
+              </a>
+            ))}
+            <div
+              style={{
+                background: "#0f172a",
+                borderRadius: 11,
+                padding: "16px 18px",
+                marginTop: 2,
+              }}
+            >
+              <div
+                style={{
+                  fontSize: 10,
+                  color: "#60a5fa",
+                  fontWeight: 700,
+                  letterSpacing: "1px",
+                  marginBottom: 7,
+                }}
+              >
+                PROTOTIP HOLATI
+              </div>
+              <p
+                style={{
+                  fontSize: 12,
+                  color: "rgba(255,255,255,.5)",
+                  lineHeight: 1.7,
+                }}
+              >
+                Beta foydalanuvchilar bilan test o'tkazilmoqda. Asosiy
+                funksiyalar ishlamoqda.
+              </p>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 6,
+                  marginTop: 9,
+                }}
+              >
+                <span
+                  style={{
+                    width: 5,
+                    height: 5,
+                    borderRadius: "50%",
+                    background: "#22c55e",
+                    animation: "pulse 2s infinite",
+                  }}
+                />
+                <span
+                  style={{ fontSize: 11, color: "#22c55e", fontWeight: 500 }}
+                >
+                  Beta — Faol
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Fade>
+  );
+}
